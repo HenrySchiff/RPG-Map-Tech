@@ -1,0 +1,78 @@
+[gd_scene load_steps=14 format=3 uid="uid://2h5t0q6helgs"]
+
+[ext_resource type="Script" uid="uid://tndy7e3sj2ts" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://b0dl2am07r452" path="res://window.tscn" id="2_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://ckgp5ihuf3jfh" path="res://assets/prototype-textures/Light/texture_01.png" id="3_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://brvm373xu8k2f" path="res://wall.tscn" id="3_lquwl"]
+[ext_resource type="Texture2D" uid="uid://87787gl2rjx5" path="res://assets/prototype-textures/Dark/texture_01.png" id="4_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://c7ryrikdc2db1" path="res://assets/prototype-textures/Red/texture_01.png" id="4_7mycd"]
+[ext_resource type="Texture2D" uid="uid://ccye4x6w0uw8w" path="res://assets/prototype-textures/Purple/texture_01.png" id="5_kek77"]
+[ext_resource type="Texture2D" uid="uid://c8l351h6mily5" path="res://assets/prototype-textures/Orange/texture_01.png" id="7_4c57u"]
+[ext_resource type="Texture2D" uid="uid://drxofrc8ydml" path="res://assets/prototype-textures/Green/texture_01.png" id="8_efxa6"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kek77"]
+radius = 0.25
+height = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h2yge"]
+size = Vector2(16, 16)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
+albedo_texture = ExtResource("4_1bvp3")
+uv1_triplanar = true
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+background_energy_multiplier = 0.0
+
+[node name="Main" type="Node"]
+script = ExtResource("1_ig7tw")
+
+[node name="WindowA" parent="." instance=ExtResource("2_0xm2m")]
+
+[node name="WindowB" parent="." instance=ExtResource("2_0xm2m")]
+
+[node name="WorldRoot" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldRoot"]
+transform = Transform3D(0.82035154, 0.4638321, -0.33448932, 0, 0.58491516, 0.81109446, 0.57185954, -0.66538256, 0.47983605, 0, 2.071096, 0)
+visible = false
+
+[node name="Player" type="MeshInstance3D" parent="WorldRoot"]
+unique_name_in_owner = true
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_kek77")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="WorldRoot/Player"]
+transform = Transform3D(0.9998477, -0.017452406, 0, 0.017452406, 0.9998477, 0, 0, 0, 1, 0, 0.75, 0)
+shadow_enabled = true
+omni_attenuation = -1.0
+
+[node name="Buildings" type="Node3D" parent="WorldRoot"]
+
+[node name="MeshInstance3D" parent="WorldRoot/Buildings" instance=ExtResource("3_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 6)
+texture = ExtResource("4_7mycd")
+
+[node name="MeshInstance3D2" parent="WorldRoot/Buildings" instance=ExtResource("3_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+texture = ExtResource("5_kek77")
+
+[node name="MeshInstance3D4" parent="WorldRoot/Buildings" instance=ExtResource("3_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+texture = ExtResource("3_1bvp3")
+
+[node name="MeshInstance3D5" parent="WorldRoot/Buildings" instance=ExtResource("3_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+texture = ExtResource("7_4c57u")
+
+[node name="MeshInstance3D6" parent="WorldRoot/Buildings" instance=ExtResource("3_lquwl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+texture = ExtResource("8_efxa6")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="WorldRoot"]
+mesh = SubResource("PlaneMesh_h2yge")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bvp3")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="WorldRoot"]
+environment = SubResource("Environment_h2yge")

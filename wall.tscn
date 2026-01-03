@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://brvm373xu8k2f"]
+
+[ext_resource type="Texture2D" uid="uid://c7ryrikdc2db1" path="res://assets/prototype-textures/Red/texture_01.png" id="1_xxgf6"]
+[ext_resource type="Script" uid="uid://c7o5i5hid0t34" path="res://wall.gd" id="1_y4f30"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y4f30"]
+albedo_texture = ExtResource("1_xxgf6")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_y4f30")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+mesh = SubResource("BoxMesh_ig7tw")
+surface_material_override/0 = SubResource("StandardMaterial3D_y4f30")
