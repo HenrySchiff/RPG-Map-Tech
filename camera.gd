@@ -1,22 +1,33 @@
 extends Node3D
 
 @onready var camera_arm = $CameraArm
-@onready var camera = $CameraArm/Camera3D
+@onready var camera: Camera3D = $CameraArm/Camera3D
 
-const ROTATION_Y_STEP: float = deg_to_rad(45)
-const ROTATION_X_STEP: float = deg_to_rad(15)
+@export var is_orthogonal: bool = true;
+
+const ROTATION_Y_STEP: float = deg_to_rad(45.0)
+const ROTATION_X_STEP: float = deg_to_rad(15.0)
 const POSITION_STEP: float = 1.0
+#const ZOOM_FACTOR: float = 2.0
 const ZOOM_FACTOR: float = 2.0
 
-const ROTATION_X_MIN: float = deg_to_rad(-90)
-const ROTATION_X_MAX: float = deg_to_rad(0)
-const ZOOM_MIN: float = 2.5
-const ZOOM_MAX: float = 40.0
+const ROTATION_X_MIN: float = deg_to_rad(-90.0)
+const ROTATION_X_MAX: float = deg_to_rad(0.0)
+#const ZOOM_MIN: float = 2.5
+#const ZOOM_MAX: float = 40.0
+const ZOOM_MIN: float = 3.0
+const ZOOM_MAX: float = 48.0
 
-var rotation_y_target: float = 0.0
-var rotation_x_target: float = deg_to_rad(-45)
-var position_target: Vector3 = Vector3.ONE * 0.5
-var zoom_target: float = 10.0
+var rotation_y_target: float = deg_to_rad(45.0)
+var rotation_x_target: float = deg_to_rad(-45.0)
+var position_target: Vector3 = Vector3.ZERO
+var zoom_target: float = 12.0
+
+func _ready():
+	if is_orthogonal:
+		camera.set_projection(Camera3D.PROJECTION_ORTHOGONAL)
+	else:
+		camera.set_projection(Camera3D.PROJECTION_PERSPECTIVE)
 
 func _process(delta):
 	if Input.is_action_just_pressed("camera_left"):
@@ -40,28 +51,38 @@ func _process(delta):
 	#var movement: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	#position_target += POSITION_STEP * Vector3(movement.x, 0, movement.y)
 	
-	var movement := Vector2.ZERO
+	var movement := Vector3.ZERO
 	
 	if Input.is_action_just_pressed("move_left"):
-		movement.x -= 1
-	elif Input.is_action_just_pressed("move_right"):
 		movement.x += 1
-	elif Input.is_action_just_pressed("move_up"):
-		movement.y -= 1
-	elif Input.is_action_just_pressed("move_down"):
+	elif Input.is_action_just_pressed("move_right"):
+		movement.x -= 1
+	if Input.is_action_just_pressed("move_up"):
 		movement.y += 1
+	elif Input.is_action_just_pressed("move_down"):
+		movement.y -= 1
+	elif Input.is_action_just_pressed("move_forward"):
+		movement.z += 1
+	elif Input.is_action_just_pressed("move_backward"):
+		movement.z -= 1
 	
-	position_target += POSITION_STEP * Vector3(movement.x, 0, movement.y)
+	position_target += POSITION_STEP * movement
 	
-	if !is_equal_approx(rotation.y, rotation_y_target):
-		rotation.y = Util.lerpdt(rotation.y, rotation_y_target, 0.001, delta)
+	if !is_equal_approx(camera_arm.rotation.y, rotation_y_target):
+		camera_arm.rotation.y = Util.lerpdt(camera_arm.rotation.y, rotation_y_target, 0.00001, delta)
 		
-	if !is_equal_approx(rotation.x, rotation_x_target):
-		camera_arm.rotation.x = Util.lerpdt(camera_arm.rotation.x, rotation_x_target, 0.0001, delta)
+	if !is_equal_approx(camera_arm.rotation.x, rotation_x_target):
+		camera_arm.rotation.x = Util.lerpdt(camera_arm.rotation.x, rotation_x_target, 0.00001, delta)
 		
 	if !position.is_equal_approx(position_target):
 		#TODO: needs dt
-		position = position.lerp(position_target, 0.1)
+		position = position.lerp(position_target, 0.2)
 		
 	if !is_equal_approx(camera.position.z, zoom_target):
-		camera.position.z = Util.lerpdt(camera.position.z, zoom_target, 0.0001, delta)
+		if is_orthogonal:
+			camera.size = Util.lerpdt(camera.size, zoom_target, 0.0001, delta)
+		else:
+			camera.position.z = Util.lerpdt(camera.position.z, zoom_target, 0.0001, delta)
+
+#func convert_orthogonal_zoom(zoom: float) -> float:
+	#return remap(zoom, ZOOM_MIN, ZOOM_MAX, 4.0, 20.0)

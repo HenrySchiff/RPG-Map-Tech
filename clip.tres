@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b3bso0b7epm4l"]
+
+[ext_resource type="Shader" uid="uid://w68huqsyfrb3" path="res://shaders/clip.gdshader" id="1_e0o7g"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_e0o7g")
+shader_parameter/visible_distance = 5.0
+shader_parameter/position = Vector3(0, 0, 0)

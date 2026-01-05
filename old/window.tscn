@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0dl2am07r452"]
 
-[ext_resource type="Script" uid="uid://b0unis1pcvqme" path="res://window.gd" id="1_hjewq"]
+[ext_resource type="Script" uid="uid://b0unis1pcvqme" path="res://old/window.gd" id="1_hjewq"]
 [ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://camera.tscn" id="2_nfq5s"]
-[ext_resource type="Script" uid="uid://bu644m8shoglc" path="res://sub_viewport_container.gd" id="2_srjdr"]
+[ext_resource type="Script" uid="uid://bu644m8shoglc" path="res://old/sub_viewport_container.gd" id="2_srjdr"]
 
 [node name="Window" type="Window"]
 oversampling_override = 1.0
