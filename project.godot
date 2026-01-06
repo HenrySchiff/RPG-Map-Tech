@@ -11,9 +11,10 @@ config_version=5
 [application]
 
 config/name="Map"
-run/main_scene="uid://cg3jiw7ljulh5"
+run/main_scene="uid://sikxdg3ndkdw"
 config/features=PackedStringArray("4.5", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/show_image=false
+config/icon="uid://dfyobossjhvg"
 
 [display]
 

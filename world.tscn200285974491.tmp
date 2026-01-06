@@ -2,13 +2,11 @@
 
 [ext_resource type="Script" uid="uid://cibjbsl3omerf" path="res://world.gd" id="1_ig7tw"]
 [ext_resource type="Shader" uid="uid://cvasxjvsdc5a0" path="res://shaders/test.gdshader" id="2_1bvp3"]
+[ext_resource type="Material" uid="uid://b3bso0b7epm4l" path="res://clip.tres" id="2_lquwl"]
 [ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://camera.tscn" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://icon.tscn" id="5_036b0"]
 [ext_resource type="PackedScene" uid="uid://crg3oxps7ejta" path="res://graph/graph_cube.tscn" id="6_7mycd"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_lquwl"]
-radius = 0.125
-height = 0.25
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
 albedo_color = Color(0, 0, 0, 1)
@@ -54,7 +52,6 @@ bottom_radius = 0.03
 height = 4.7169905
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
-shading_mode = 0
 albedo_color = Color(0.59905666, 1.4318898e-06, 4.3317675e-07, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_272bh"]
@@ -77,44 +74,46 @@ line_thickness = 0.039
 
 [node name="PlayerIcon" type="MeshInstance3D" parent="CameraContainer/Player"]
 unique_name_in_owner = true
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 mesh = SubResource("SphereMesh_lquwl")
 skeleton = NodePath("../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_lquwl")
 
 [node name="Label3D" type="Label3D" parent="CameraContainer/Player/PlayerIcon"]
-sorting_offset = 1.0
-offset = Vector2(450, 0)
+sorting_offset = 1000.0
+offset = Vector2(1250, 0)
 billboard = 1
 no_depth_test = true
 modulate = Color(0, 0, 0, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "PLYR (0,0,0)"
-font_size = 125
+font_size = 350
 
-[node name="Meshes" type="Node3D" parent="."]
+[node name="Buildings" type="Node3D" parent="."]
 
-[node name="Box2" type="MeshInstance3D" parent="Meshes"]
+[node name="Box2" type="MeshInstance3D" parent="Buildings" groups=["clipped_meshes"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -3, 2.5)
 mesh = SubResource("BoxMesh_lquwl")
 skeleton = NodePath("../..")
 
-[node name="Box3" type="MeshInstance3D" parent="Meshes"]
+[node name="Box3" type="MeshInstance3D" parent="Buildings" groups=["clipped_meshes"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -2.5, 1.5)
 mesh = SubResource("BoxMesh_7mycd")
 skeleton = NodePath("../..")
 
-[node name="Box4" type="MeshInstance3D" parent="Meshes"]
+[node name="Box4" type="MeshInstance3D" parent="Buildings" groups=["clipped_meshes"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -3, -1.5)
 mesh = SubResource("BoxMesh_272bh")
 skeleton = NodePath("../..")
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Meshes"]
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Buildings"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -1, -3)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Meshes/CSGCombiner3D"]
+[node name="CSGBox3D" type="CSGBox3D" parent="Buildings/CSGCombiner3D" groups=["clipped_meshes"]]
 size = Vector3(3, 8, 2)
+material = ExtResource("2_lquwl")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Meshes/CSGCombiner3D"]
+[node name="CSGBox3D2" type="CSGBox3D" parent="Buildings/CSGCombiner3D" groups=["clipped_meshes"]]
 transform = Transform3D(0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, 0, 0, 1, 1.5, 3.5, 0)
 operation = 2
 size = Vector3(2, 1, 2)
@@ -139,7 +138,6 @@ text = "FPS: 61.0"
 
 [node name="EnemyIcon" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 2, 1.5, -2)
-visible = false
 mesh = SubResource("SphereMesh_lquwl")
 surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
 
@@ -155,7 +153,6 @@ font_size = 350
 
 [node name="EnemyIcon2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -1.5, 2.5, 4.5)
-visible = false
 mesh = SubResource("SphereMesh_lquwl")
 surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
 
@@ -171,7 +168,6 @@ font_size = 350
 
 [node name="EnemyIcon3" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -3, 1.5, 1.5)
-visible = false
 mesh = SubResource("SphereMesh_lquwl")
 surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
 
@@ -187,7 +183,6 @@ font_size = 350
 
 [node name="LineNode" type="Node3D" parent="."]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
-visible = false
 
 [node name="Line" type="MeshInstance3D" parent="LineNode"]
 transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, 0, 0, 0)
@@ -197,15 +192,11 @@ surface_material_override/0 = SubResource("StandardMaterial3D_7mycd")
 
 [node name="LineNode2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
-visible = false
 
 [node name="Line" type="MeshInstance3D" parent="LineNode2"]
 transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_272bh")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_7mycd")
-
-[node name="Icon" parent="." instance=ExtResource("5_036b0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1654663, 3.1653442)
 
 [editable path="CameraContainer"]

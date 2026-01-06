@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://1taoydfjd14q"]
+
+[ext_resource type="Script" uid="uid://v84nibqomwyu" path="res://icon.gd" id="1_hqyvl"]
+[ext_resource type="Texture2D" uid="uid://b1f7byg3ymect" path="res://assets/icon.svg" id="1_tr34o"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_87csf"]
+top_radius = 0.03
+bottom_radius = 0.03
+height = 4.7169905
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8a5nq"]
+shading_mode = 0
+albedo_color = Color(0.59905666, 1.4318898e-06, 4.3317675e-07, 1)
+
+[node name="Icon" type="Node3D"]
+script = ExtResource("1_hqyvl")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+billboard = 1
+no_depth_test = true
+render_priority = 1
+texture = ExtResource("1_tr34o")
+
+[node name="Label3D" type="Label3D" parent="."]
+offset = Vector2(400, 0)
+billboard = 1
+no_depth_test = true
+render_priority = 1
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "icon"
+font_size = 125
+
+[node name="LineNode" type="Node3D" parent="."]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="Line" type="MeshInstance3D" parent="LineNode"]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_87csf")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_8a5nq")

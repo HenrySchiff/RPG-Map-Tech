@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0dl2am07r452"]
 
 [ext_resource type="Script" uid="uid://b0unis1pcvqme" path="res://window.gd" id="1_hjewq"]
-[ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://camera.tscn" id="2_nfq5s"]
 [ext_resource type="Script" uid="uid://bu644m8shoglc" path="res://old/sub_viewport_container.gd" id="2_srjdr"]
+[ext_resource type="PackedScene" uid="uid://cg3jiw7ljulh5" path="res://world.tscn" id="3_nfq5s"]
 
 [node name="Window" type="Window"]
 oversampling_override = 1.0
@@ -11,6 +11,7 @@ size = Vector2i(1152, 648)
 script = ExtResource("1_hjewq")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -19,10 +20,12 @@ grow_vertical = 2
 script = ExtResource("2_srjdr")
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+own_world_3d = true
 handle_input_locally = false
+size = Vector2i(288, 162)
 render_target_update_mode = 4
 
-[node name="CameraContainer" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_nfq5s")]
+[node name="World" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_nfq5s")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

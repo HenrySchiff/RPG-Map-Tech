@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode world_vertex_coords;
 
+uniform bool enable_clipping = true;
 uniform float visible_distance = 0.55;
 uniform vec3 position = vec3(0.0);
 
@@ -12,9 +13,11 @@ void vertex() {
 
 void fragment() {
 	if (
-		abs(extent.x) > visible_distance || 
-		abs(extent.y) > visible_distance || 
-		abs(extent.z) > visible_distance 
+		enable_clipping && (
+			abs(extent.x) > visible_distance || 
+			abs(extent.y) > visible_distance || 
+			abs(extent.z) > visible_distance 
+		)
 	) {
 		discard;
 	}

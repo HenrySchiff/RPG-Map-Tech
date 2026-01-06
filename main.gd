@@ -3,30 +3,21 @@ extends Node
 const CONFIG_PATH: String = "user://config.cfg"
 const INITIAL_WINDOW_SIZE: Vector2 = Vector2(1152, 648)
 
-@onready var world_root: Node3D = $WorldRoot
 @onready var window_a: Window = $ControlWindow
 @onready var window_b: Window = $DisplayWindow
-@onready var vp_a: SubViewport = $ControlWindow/SubViewportContainer/SubViewport
-@onready var vp_b: SubViewport = $DisplayWindow/SubViewportContainer/SubViewport
-@onready var camera_a: Node3D = $ControlWindow/SubViewportContainer/SubViewport/CameraContainer
-#@onready var player = %Player
+@onready var cube = $ControlWindow/SubViewportContainer/SubViewport/World/CameraContainer/Player/GraphCube
 
 func _ready():
 	get_tree().auto_accept_quit = false
 	load_config()
 	
-	var world := world_root.get_world_3d()
-	vp_a.world_3d = world
-	vp_b.world_3d = world
-	
-	vp_a.debug_draw = Viewport.DEBUG_DRAW_UNSHADED
-	#player.reparent(camera_a)
+	cube.hide_faces = true
 	
 	window_a.close_requested.connect(save_and_quit)
 	window_b.close_requested.connect(save_and_quit)
 	
-	window_a.title = "Dungeon Master View"
-	window_b.title = "Player View"
+	window_a.title = "Control Window"
+	window_b.title = "Display Window"
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
