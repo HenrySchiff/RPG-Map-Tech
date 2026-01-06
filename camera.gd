@@ -6,7 +6,7 @@ extends Node3D
 @export var is_orthogonal: bool = true;
 
 const ROTATION_Y_STEP: float = deg_to_rad(45.0)
-const ROTATION_X_STEP: float = deg_to_rad(15.0)
+const ROTATION_X_STEP: float = deg_to_rad(30.0)
 const POSITION_STEP: float = 1.0
 #const ZOOM_FACTOR: float = 2.0
 const ZOOM_FACTOR: float = 2.0
@@ -76,11 +76,14 @@ func _process(delta):
 		
 	if !position.is_equal_approx(position_target):
 		#TODO: needs dt
-		position = position.lerp(position_target, 0.2)
+		#position = position.lerp(position_target, 0.2)
+		position.x = Util.lerpdt(position.x, position_target.x, 0.00001, delta)
+		position.y = Util.lerpdt(position.y, position_target.y, 0.00001, delta)
+		position.z = Util.lerpdt(position.z, position_target.z, 0.00001, delta)
 		
 	if !is_equal_approx(camera.position.z, zoom_target):
 		if is_orthogonal:
-			camera.size = Util.lerpdt(camera.size, zoom_target, 0.0001, delta)
+			camera.size = Util.lerpdt(camera.size, zoom_target, 0.00001, delta)
 		else:
 			camera.position.z = Util.lerpdt(camera.position.z, zoom_target, 0.0001, delta)
 

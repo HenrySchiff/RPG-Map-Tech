@@ -1,128 +1,17 @@
-[gd_scene load_steps=20 format=3 uid="uid://cg3jiw7ljulh5"]
+[gd_scene load_steps=4 format=3 uid="uid://sikxdg3ndkdw"]
 
-[ext_resource type="Script" uid="uid://cibjbsl3omerf" path="res://main.gd" id="1_ig7tw"]
-[ext_resource type="Shader" uid="uid://cvasxjvsdc5a0" path="res://shaders/test.gdshader" id="2_1bvp3"]
-[ext_resource type="Material" uid="uid://b3bso0b7epm4l" path="res://clip.tres" id="2_lquwl"]
-[ext_resource type="Shader" uid="uid://bg1kfmkwnoo2k" path="res://shaders/graph.gdshader" id="3_lquwl"]
-[ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://camera.tscn" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://crg3oxps7ejta" path="res://graph/graph_cube.tscn" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://tndy7e3sj2ts" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://b0dl2am07r452" path="res://window.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://cg3jiw7ljulh5" path="res://world.tscn" id="2_h2yge"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_1bvp3"]
-lightmap_size_hint = Vector2i(104, 156)
-flip_faces = true
-size = Vector3(10, 10, 10)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ykrsh"]
-render_priority = 0
-shader = ExtResource("3_lquwl")
-shader_parameter/lines_per_face = 10
-shader_parameter/line_thickness = 0.02000000095
-shader_parameter/line_color = Color(0.16206557, 0.1620656, 0.16206557, 1)
-shader_parameter/face_color = Color(1, 1, 1, 1)
-shader_parameter/edge = 1.9350001394125
-
-[sub_resource type="BoxMesh" id="BoxMesh_37kl0"]
-size = Vector3(3, 8, 2)
-
-[sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
-size = Vector3(2, 4, 3)
-
-[sub_resource type="BoxMesh" id="BoxMesh_7mycd"]
-size = Vector3(2, 5, 3)
-
-[sub_resource type="BoxMesh" id="BoxMesh_272bh"]
-size = Vector3(2, 4, 3)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_8uh7m"]
-size = Vector2(10, 10)
-subdivide_width = 32
-subdivide_depth = 32
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_37kl0"]
-noise_type = 0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8uh7m"]
-noise = SubResource("FastNoiseLite_37kl0")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6uqi0"]
-render_priority = 0
-shader = ExtResource("2_1bvp3")
-shader_parameter/height_scale = 0.75
-shader_parameter/noise = SubResource("NoiseTexture2D_8uh7m")
-shader_parameter/texel_size = 0.1
-
-[sub_resource type="Environment" id="Environment_1bvp3"]
-background_mode = 1
-background_color = Color(1, 1, 1, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_lquwl"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
-albedo_color = Color(0.641872, 0, 0.14658064, 1)
-
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node"]
 script = ExtResource("1_ig7tw")
 
-[node name="CameraContainer" parent="." instance=ExtResource("4_1bvp3")]
+[node name="ControlWindow" parent="." instance=ExtResource("2_0xm2m")]
 
-[node name="GraphBounds" type="MeshInstance3D" parent="CameraContainer"]
-unique_name_in_owner = true
-visible = false
-mesh = SubResource("BoxMesh_1bvp3")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_ykrsh")
+[node name="DisplayWindow" parent="." instance=ExtResource("2_0xm2m")]
 
-[node name="GraphCube" parent="CameraContainer" instance=ExtResource("6_7mycd")]
-unique_name_in_owner = true
-line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
-line_thickness = 0.032
+[node name="WorldRoot" parent="." instance=ExtResource("2_h2yge")]
 
-[node name="Buildings" type="Node3D" parent="."]
-
-[node name="Box" type="MeshInstance3D" parent="Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -1, -3)
-mesh = SubResource("BoxMesh_37kl0")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("2_lquwl")
-
-[node name="Box2" type="MeshInstance3D" parent="Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -3, 2.5)
-mesh = SubResource("BoxMesh_lquwl")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("2_lquwl")
-
-[node name="Box3" type="MeshInstance3D" parent="Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -2.5, 1.5)
-mesh = SubResource("BoxMesh_7mycd")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("2_lquwl")
-
-[node name="Box4" type="MeshInstance3D" parent="Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -3, -1.5)
-mesh = SubResource("BoxMesh_272bh")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("2_lquwl")
-
-[node name="TerrainTest" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
-visible = false
-mesh = SubResource("PlaneMesh_8uh7m")
-surface_material_override/0 = SubResource("ShaderMaterial_6uqi0")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.8052768, 0.335762, -0.48866463, 0, 0.8241954, 0.5663055, 0.592899, -0.4560327, 0.6637054, 0, 0, 0)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_1bvp3")
-
-[node name="FPSLabel" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-
-[node name="PlayerIcon" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -3, 0, 1)
-mesh = SubResource("SphereMesh_lquwl")
-surface_material_override/0 = SubResource("StandardMaterial3D_lquwl")
-
-[editable path="CameraContainer"]
+[editable path="WorldRoot"]
+[editable path="WorldRoot/CameraContainer"]

@@ -1,5 +1,11 @@
 @tool extends Node3D
 
+@export var grid_size: int = 10:
+	set(value):
+		grid_size = value
+		for plane in get_children():
+			plane.get_surface_override_material(0).set_shader_parameter("grid_size", value)
+
 @export var line_color: Color = Color.BLACK:
 	set(value):
 		line_color = value
