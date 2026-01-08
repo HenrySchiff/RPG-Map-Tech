@@ -16,7 +16,7 @@ const ROTATION_X_MAX: float = deg_to_rad(0.0)
 #const ZOOM_MIN: float = 2.5
 #const ZOOM_MAX: float = 40.0
 const ZOOM_MIN: float = 3.0
-const ZOOM_MAX: float = 48.0
+const ZOOM_MAX: float = 96.0
 
 var rotation_y_target: float = deg_to_rad(45.0)
 var rotation_x_target: float = deg_to_rad(-45.0)

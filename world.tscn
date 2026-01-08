@@ -1,23 +1,20 @@
-[gd_scene load_steps=20 format=3 uid="uid://cg3jiw7ljulh5"]
+[gd_scene load_steps=16 format=3 uid="uid://cg3jiw7ljulh5"]
 
 [ext_resource type="Script" uid="uid://cibjbsl3omerf" path="res://world.gd" id="1_ig7tw"]
 [ext_resource type="Shader" uid="uid://cvasxjvsdc5a0" path="res://shaders/test.gdshader" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://182hdqirsi56" path="res://player.tscn" id="3_036b0"]
 [ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://camera.tscn" id="4_1bvp3"]
+[ext_resource type="ArrayMesh" uid="uid://bfjogfq6g6yb4" path="res://assets/Mesher.obj" id="4_dwbse"]
 [ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://icon.tscn" id="5_036b0"]
-[ext_resource type="PackedScene" uid="uid://crg3oxps7ejta" path="res://graph/graph_cube.tscn" id="6_7mycd"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_lquwl"]
-radius = 0.125
-height = 0.25
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
-albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
-size = Vector3(2, 4, 3)
+size = Vector3(2, 8, 3)
 
 [sub_resource type="BoxMesh" id="BoxMesh_7mycd"]
 size = Vector3(2, 5, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dwbse"]
+size = Vector3(2, 10, 3)
 
 [sub_resource type="BoxMesh" id="BoxMesh_272bh"]
 size = Vector3(2, 4, 3)
@@ -45,71 +42,52 @@ background_mode = 1
 background_color = Color(1, 1, 1, 1)
 ambient_light_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
-albedo_color = Color(0.6431373, 0, 0.14509805, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_7mycd"]
-top_radius = 0.03
-bottom_radius = 0.03
-height = 4.7169905
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
-shading_mode = 0
-albedo_color = Color(0.59905666, 1.4318898e-06, 4.3317675e-07, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_272bh"]
-top_radius = 0.03
-bottom_radius = 0.03
-height = 3.8405728
-
 [node name="World" type="Node3D"]
 script = ExtResource("1_ig7tw")
 
 [node name="CameraContainer" parent="." instance=ExtResource("4_1bvp3")]
 
-[node name="Player" type="Node3D" parent="CameraContainer"]
-unique_name_in_owner = true
+[node name="Camera3D" parent="CameraContainer/CameraArm" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50)
 
-[node name="GraphCube" parent="CameraContainer/Player" instance=ExtResource("6_7mycd")]
+[node name="Player" parent="CameraContainer" instance=ExtResource("3_036b0")]
 unique_name_in_owner = true
-line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
-line_thickness = 0.039
-
-[node name="PlayerIcon" type="MeshInstance3D" parent="CameraContainer/Player"]
-unique_name_in_owner = true
-mesh = SubResource("SphereMesh_lquwl")
-skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_lquwl")
-
-[node name="Label3D" type="Label3D" parent="CameraContainer/Player/PlayerIcon"]
-sorting_offset = 1.0
-offset = Vector2(450, 0)
-billboard = 1
-no_depth_test = true
-modulate = Color(0, 0, 0, 1)
-outline_modulate = Color(0, 0, 0, 0)
-text = "PLYR (0,0,0)"
-font_size = 125
+view_range = 15.607
 
 [node name="Meshes" type="Node3D" parent="."]
 
+[node name="Terrain" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, -11.4, 0)
+mesh = ExtResource("4_dwbse")
+skeleton = NodePath("../..")
+
 [node name="Box2" type="MeshInstance3D" parent="Meshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -3, 2.5)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 9, -5, 11)
 mesh = SubResource("BoxMesh_lquwl")
 skeleton = NodePath("../..")
 
 [node name="Box3" type="MeshInstance3D" parent="Meshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -2.5, 1.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, -4.5, -8)
 mesh = SubResource("BoxMesh_7mycd")
 skeleton = NodePath("../..")
 
+[node name="Box5" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -4, -8)
+mesh = SubResource("BoxMesh_7mycd")
+skeleton = NodePath("../..")
+
+[node name="Box6" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 27, -4, -4.5)
+mesh = SubResource("BoxMesh_dwbse")
+skeleton = NodePath("../..")
+
 [node name="Box4" type="MeshInstance3D" parent="Meshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -3, -1.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, -5, -11)
 mesh = SubResource("BoxMesh_272bh")
 skeleton = NodePath("../..")
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="Meshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -1, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -3, -24.5)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Meshes/CSGCombiner3D"]
 size = Vector3(3, 8, 2)
@@ -118,6 +96,31 @@ size = Vector3(3, 8, 2)
 transform = Transform3D(0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, 0, 0, 1, 1.5, 3.5, 0)
 operation = 2
 size = Vector3(2, 1, 2)
+
+[node name="CSGCombiner3D2" type="CSGCombiner3D" parent="Meshes"]
+transform = Transform3D(-0.8660253, 0, -0.49999997, 0, 1, 0, 0.49999997, 0, -0.8660253, -5, -3, -23)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Meshes/CSGCombiner3D2"]
+size = Vector3(3, 8, 2)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Meshes/CSGCombiner3D2"]
+transform = Transform3D(0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, 0, 0, 1, 1.5, 3.5, 0)
+operation = 2
+size = Vector3(2, 1, 2)
+
+[node name="Icons" type="Node3D" parent="."]
+
+[node name="EnemyIcon" parent="Icons" instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 4)
+icon_type = 1
+label_text = "ENMY"
+enable_clipping = false
+
+[node name="EnemyIcon2" parent="Icons" instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -2)
+icon_type = 1
+label_text = "GAHHHff"
+enable_clipping = false
 
 [node name="TerrainTest" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
@@ -130,82 +133,5 @@ transform = Transform3D(0.8052768, 0.335762, -0.48866463, 0, 0.8241954, 0.566305
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1bvp3")
-
-[node name="FPSLabel" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "FPS: 61.0"
-
-[node name="EnemyIcon" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 2, 1.5, -2)
-visible = false
-mesh = SubResource("SphereMesh_lquwl")
-surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
-
-[node name="Label3D" type="Label3D" parent="EnemyIcon"]
-sorting_offset = 100000.0
-offset = Vector2(700, 0)
-billboard = 1
-no_depth_test = true
-modulate = Color(0, 0, 0, 1)
-outline_modulate = Color(0, 0, 0, 0)
-text = "ENMY"
-font_size = 350
-
-[node name="EnemyIcon2" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -1.5, 2.5, 4.5)
-visible = false
-mesh = SubResource("SphereMesh_lquwl")
-surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
-
-[node name="Label3D" type="Label3D" parent="EnemyIcon2"]
-sorting_offset = 100000.0
-offset = Vector2(700, 0)
-billboard = 1
-no_depth_test = true
-modulate = Color(0, 0, 0, 1)
-outline_modulate = Color(0, 0, 0, 0)
-text = "ENMY"
-font_size = 350
-
-[node name="EnemyIcon3" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -3, 1.5, 1.5)
-visible = false
-mesh = SubResource("SphereMesh_lquwl")
-surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
-
-[node name="Label3D" type="Label3D" parent="EnemyIcon3"]
-sorting_offset = 100000.0
-offset = Vector2(700, 0)
-billboard = 1
-no_depth_test = true
-modulate = Color(0, 0, 0, 1)
-outline_modulate = Color(0, 0, 0, 0)
-text = "ENMY"
-font_size = 350
-
-[node name="LineNode" type="Node3D" parent="."]
-transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
-visible = false
-
-[node name="Line" type="MeshInstance3D" parent="LineNode"]
-transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("CylinderMesh_7mycd")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_7mycd")
-
-[node name="LineNode2" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 0, 0, 0)
-visible = false
-
-[node name="Line" type="MeshInstance3D" parent="LineNode2"]
-transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("CylinderMesh_272bh")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_7mycd")
-
-[node name="Icon" parent="." instance=ExtResource("5_036b0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1654663, 3.1653442)
 
 [editable path="CameraContainer"]

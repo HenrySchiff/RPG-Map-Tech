@@ -7,8 +7,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pk28m"]
 render_priority = 0
 shader = ExtResource("3_pk28m")
-shader_parameter/grid_size = 10
-shader_parameter/line_thickness = 0.039
+shader_parameter/grid_size = 20
+shader_parameter/line_thickness = 0.05
 shader_parameter/line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
 shader_parameter/face_color = Color(1, 1, 1, 1)
 shader_parameter/edge = 0.5
@@ -17,8 +17,8 @@ shader_parameter/pos_offset = Vector2(0, 0)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ty3us"]
 render_priority = 0
 shader = ExtResource("3_pk28m")
-shader_parameter/grid_size = 10
-shader_parameter/line_thickness = 0.039
+shader_parameter/grid_size = 20
+shader_parameter/line_thickness = 0.05
 shader_parameter/line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
 shader_parameter/face_color = Color(1, 1, 1, 1)
 shader_parameter/edge = 0.5
@@ -27,8 +27,8 @@ shader_parameter/pos_offset = Vector2(0, 0)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ie4pf"]
 render_priority = 0
 shader = ExtResource("3_pk28m")
-shader_parameter/grid_size = 10
-shader_parameter/line_thickness = 0.039
+shader_parameter/grid_size = 20
+shader_parameter/line_thickness = 0.05
 shader_parameter/line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
 shader_parameter/face_color = Color(1, 1, 1, 1)
 shader_parameter/edge = 0.5
@@ -37,8 +37,8 @@ shader_parameter/pos_offset = Vector2(0, 0)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_snb8x"]
 render_priority = 0
 shader = ExtResource("3_pk28m")
-shader_parameter/grid_size = 10
-shader_parameter/line_thickness = 0.039
+shader_parameter/grid_size = 20
+shader_parameter/line_thickness = 0.05
 shader_parameter/line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
 shader_parameter/face_color = Color(1, 1, 1, 1)
 shader_parameter/edge = 0.5
@@ -47,8 +47,8 @@ shader_parameter/pos_offset = Vector2(0, 0)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q6yc6"]
 render_priority = 0
 shader = ExtResource("3_pk28m")
-shader_parameter/grid_size = 10
-shader_parameter/line_thickness = 0.039
+shader_parameter/grid_size = 20
+shader_parameter/line_thickness = 0.05
 shader_parameter/line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
 shader_parameter/face_color = Color(1, 1, 1, 1)
 shader_parameter/edge = 0.5
@@ -57,8 +57,8 @@ shader_parameter/pos_offset = Vector2(0, 0)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qrjeo"]
 render_priority = 0
 shader = ExtResource("3_pk28m")
-shader_parameter/grid_size = 10
-shader_parameter/line_thickness = 0.039
+shader_parameter/grid_size = 20
+shader_parameter/line_thickness = 0.05
 shader_parameter/line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
 shader_parameter/face_color = Color(1, 1, 1, 1)
 shader_parameter/edge = 0.5

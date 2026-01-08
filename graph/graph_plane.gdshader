@@ -4,7 +4,7 @@ render_mode unshaded;
 uniform int grid_size : hint_range(1, 1000) = 10;
 uniform float line_thickness : hint_range(0.001, 0.1) = 0.01;
 uniform vec4 line_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
-uniform vec4 face_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform vec4 face_color : source_color = vec4(1.0, 1.0, 1.0, 0.0);
 uniform float edge : hint_range(-1.0, 4.0) = 0.5;
 uniform vec2 pos_offset = vec2(0.0, 0.0);
 
@@ -35,7 +35,10 @@ void fragment() {
 	// Mix between face color and line color
 	vec4 final = mix(face_color, line_color, mask);
 	ALBEDO = final.xyz;
-	ALPHA = final.a;
+	//ALPHA = final.a;
+	if (final == face_color) {
+		ALPHA = 0.0;
+	}
 	
 	uv += offset;
 	

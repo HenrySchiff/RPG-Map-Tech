@@ -1,8 +1,15 @@
 @tool extends Node3D
 
-@export var grid_size: int = 10:
+@export var edge_length: float = 10.0:
 	set(value):
-		grid_size = value
+		edge_length = value
+		for plane in get_children():
+			plane.mesh.size = Vector2(value, value)
+			plane.position = plane.position.normalized() * (value / 2.0)
+	
+@export var cells_per_edge: int = 10:
+	set(value):
+		cells_per_edge = value
 		for plane in get_children():
 			plane.get_surface_override_material(0).set_shader_parameter("grid_size", value)
 
@@ -30,15 +37,15 @@ func _ready():
 		plane.set_surface_override_material(0, material.duplicate())
 
 func _process(_delta):
-	var offset_xz = Vector2(global_position.x, global_position.z) / 10.0
+	var offset_xz = Vector2(global_position.x, global_position.z) / edge_length
 	_set_offset($PlanePosXZ, offset_xz * Vector2(1.0, -1.0))
 	_set_offset($PlaneNegXZ, -offset_xz)
 	
-	var offset_xy = Vector2(global_position.x, global_position.y) / 10.0
+	var offset_xy = Vector2(global_position.x, global_position.y) / edge_length
 	_set_offset($PlanePosXY, -offset_xy)
 	_set_offset($PlaneNegXY, offset_xy * Vector2(-1.0, 1.0))
 	
-	var offset_zy = Vector2(global_position.y, global_position.z) / 10.0
+	var offset_zy = Vector2(global_position.y, global_position.z) / edge_length
 	_set_offset($PlanePosZY, -offset_zy)
 	_set_offset($PlaneNegZY, offset_zy * Vector2(1.0, -1.0))
 

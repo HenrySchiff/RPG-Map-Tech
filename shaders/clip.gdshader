@@ -4,6 +4,7 @@ render_mode world_vertex_coords;
 uniform bool enable_clipping = true;
 uniform float visible_distance = 0.55;
 uniform vec3 position = vec3(0.0);
+uniform vec3 albedo_color = vec3(0.25, 0.25, 0.25);
 
 varying vec3 extent;
 
@@ -22,5 +23,5 @@ void fragment() {
 		discard;
 	}
 	
-	ALBEDO = vec3(0.25, 0.25, 0.25);
+	ALBEDO = albedo_color;
 }
