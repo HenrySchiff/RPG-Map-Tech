@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://1taoydfjd14q"]
+
+[ext_resource type="Script" uid="uid://v84nibqomwyu" path="res://world/icon.gd" id="1_hqyvl"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hqyvl"]
+top_radius = 0.03
+bottom_radius = 0.03
+height = 4.7169905
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8a5nq"]
+shading_mode = 0
+albedo_color = Color(0.8426348, 2.0696223e-06, 5.7756904e-07, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hqyvl"]
+radius = 0.25
+
+[node name="Icon" type="Node3D"]
+script = ExtResource("1_hqyvl")
+icon_type = null
+label_text = "Enemy"
+enable_clipping = null
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 0, 0, 0)
+billboard = 1
+no_depth_test = true
+render_priority = 1
+
+[node name="Label3D" type="Label3D" parent="."]
+offset = Vector2(50, 0)
+billboard = 1
+no_depth_test = true
+render_priority = 1
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+font_size = 80
+horizontal_alignment = 0
+
+[node name="LineNode" type="Node3D" parent="."]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="Line" type="MeshInstance3D" parent="LineNode"]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_hqyvl")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_8a5nq")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_hqyvl")

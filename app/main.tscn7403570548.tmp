@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://sikxdg3ndkdw"]
+
+[ext_resource type="Script" uid="uid://tndy7e3sj2ts" path="res://app/main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://b0dl2am07r452" path="res://app/window.tscn" id="2_0xm2m"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_ig7tw")
+
+[node name="ControlWindow" parent="." instance=ExtResource("2_0xm2m")]
+
+[node name="DisplayWindow" parent="." instance=ExtResource("2_0xm2m")]

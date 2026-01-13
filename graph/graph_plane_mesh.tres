@@ -1,0 +1,17 @@
+[gd_resource type="PlaneMesh" load_steps=3 format=3 uid="uid://bhnfffkk432k6"]
+
+[ext_resource type="Shader" uid="uid://cv1u6oog1gxqy" path="res://graph/graph_plane.gdshader" id="1_r5i6v"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_27sxh"]
+render_priority = 0
+shader = ExtResource("1_r5i6v")
+shader_parameter/grid_size = 20
+shader_parameter/line_thickness = 0.03
+shader_parameter/line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
+shader_parameter/face_color = Color(1, 1, 1, 0)
+shader_parameter/edge = 0.5
+shader_parameter/pos_offset = Vector2(0, 0)
+
+[resource]
+material = SubResource("ShaderMaterial_27sxh")
+size = Vector2(10, 10)

@@ -1,40 +1,41 @@
-@tool extends Node3D
+extends Node3D
 
 @export var edge_length: float = 10.0:
 	set(value):
 		edge_length = value
-		for plane in get_children():
-			plane.mesh.size = Vector2(value, value)
-			plane.position = plane.position.normalized() * (value / 2.0)
+		call_deferred("_apply_edge_length")
 	
 @export var cells_per_edge: int = 10:
 	set(value):
 		cells_per_edge = value
 		for plane in get_children():
-			plane.get_surface_override_material(0).set_shader_parameter("grid_size", value)
+			plane.mesh.get_material().set_shader_parameter("grid_size", value)
 
 @export var line_color: Color = Color.BLACK:
 	set(value):
 		line_color = value
 		for plane in get_children():
-			plane.get_surface_override_material(0).set_shader_parameter("line_color", value)
+			plane.mesh.get_material().set_shader_parameter("line_color", value)
 
 @export_range(0.001, 0.1, 0.001) var line_thickness: float = 0.01:
 	set(value):
 		line_thickness = value
 		for plane in get_children():
-			plane.get_surface_override_material(0).set_shader_parameter("line_thickness", value)
+			plane.mesh.get_material().set_shader_parameter("line_thickness", value)
 
 @export var hide_faces: bool = false:
 	set(value):
 		hide_faces = value
 		call_deferred("_apply_hide_faces")
 
+func _init():
+	_apply_edge_length()
 
 func _ready():
+	# make each mesh and its shader material unique so they can receive different params
 	for plane in get_children():
-		var material: ShaderMaterial = plane.get_surface_override_material(0)
-		plane.set_surface_override_material(0, material.duplicate())
+		var mesh: PlaneMesh = plane.mesh
+		plane.mesh = mesh.duplicate_deep()
 
 func _process(_delta):
 	var offset_xz = Vector2(global_position.x, global_position.z) / edge_length
@@ -50,9 +51,15 @@ func _process(_delta):
 	_set_offset($PlaneNegZY, offset_zy * Vector2(1.0, -1.0))
 
 func _set_offset(plane: MeshInstance3D, offset: Vector2) -> void:
-	plane.get_surface_override_material(0).set_shader_parameter("pos_offset", offset)
+	#plane.get_surface_override_material(0).set_shader_parameter("pos_offset", offset)
+	plane.mesh.get_material().set_shader_parameter("pos_offset", offset)
 
 func _apply_hide_faces():
 	# toggle visibility for all but bottom face (negative XZ)
 	for plane in [$PlanePosXY, $PlaneNegXY, $PlanePosZY, $PlaneNegZY, $PlanePosXZ]:
 		plane.visible = !hide_faces
+
+func _apply_edge_length():
+	for plane in get_children():
+		plane.mesh.size = Vector2(edge_length, edge_length)
+		plane.position = plane.position.normalized() * (edge_length / 2.0)
