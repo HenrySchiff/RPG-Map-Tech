@@ -5,12 +5,14 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_27sxh"]
 render_priority = 0
 shader = ExtResource("1_r5i6v")
-shader_parameter/grid_size = 20
-shader_parameter/line_thickness = 0.03
-shader_parameter/line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
-shader_parameter/face_color = Color(1, 1, 1, 0)
-shader_parameter/edge = 0.5
-shader_parameter/pos_offset = Vector2(0, 0)
+shader_parameter/edge_length = 10.0
+shader_parameter/cell_length = 1.0
+shader_parameter/line_thickness = 0.5
+shader_parameter/edge_thickness = 0.5
+shader_parameter/position_offset = Vector2(0, 0)
+shader_parameter/line_color = Vector3(0, 0, 0)
+shader_parameter/face_color = Vector3(0, 0, 0)
+shader_parameter/edge_color = Vector3(0, 0, 0)
 
 [resource]
 material = SubResource("ShaderMaterial_27sxh")

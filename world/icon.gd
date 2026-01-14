@@ -11,6 +11,7 @@ const cross_texture: Texture2D = preload("res://assets/cross.svg")
 @export var icon_type: IconType = IconType.DOT
 @export var label_text: String = ""
 @export var target: Node3D = null
+@export var color: Color = Color.RED
 
 @onready var world: Node3D = find_parent("World")
 @onready var sprite_3d: Sprite3D = $Sprite3D
@@ -20,8 +21,12 @@ const cross_texture: Texture2D = preload("res://assets/cross.svg")
 @onready var label = $Label3D
 
 func _ready():
+	#NOTE: make unqiue not working for some reason
+	line.mesh = line.mesh.duplicate_deep()
+	
 	_apply_icon_type()
-	line.mesh = line.mesh.duplicate() #NOTE: make unqiue not working for some reason
+	_apply_color()
+	
 	label.text = label_text
 	area_3d.connect("area_entered", _handle_area_entered)
 	area_3d.connect("area_exited", _handle_area_exited)
@@ -49,11 +54,15 @@ func _apply_icon_type():
 		IconType.CROSS:
 			sprite_3d.texture = cross_texture
 			sprite_3d.scale = Vector3.ONE / 24.0
-			sprite_3d.modulate = line.get_surface_override_material(0).albedo_color
+			sprite_3d.modulate = color
+
+func _apply_color():
+	line.mesh.get_material().set_shader_parameter("line_color", color);
 
 func set_target_pos(target_pos: Vector3) -> void:
 	var distance: float = global_position.distance_to(target_pos)
 	var midpoint: Vector3 = (global_position + target_pos) / 2
 	line_node.global_position = midpoint
-	line.mesh.height = distance
 	line_node.look_at(target_pos)
+	line.mesh.height = distance
+	line.mesh.get_material().set_shader_parameter("line_length", distance);

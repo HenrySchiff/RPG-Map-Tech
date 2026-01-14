@@ -7,27 +7,34 @@ class_name World extends Node3D
 @onready var meshes = $Meshes
 @onready var icons = $Icons
 
-var world_environment: Environment = preload("res://resources/world_environment.tres")
-var clipping_shader: ShaderMaterial = preload("res://world/clip.tres").duplicate()
+var world_environment: Environment = preload("res://world/resources/world_environment.tres")
+
+var solid_shader: ShaderMaterial = preload("res://world/resources/clip.tres").duplicate()
+var gradient_shader: ShaderMaterial = preload("res://world/resources/gradient.tres").duplicate()
 
 func _ready():
-	#player.view_range = 50.0
+	player.target_view_range = 12.0
 	$WorldEnvironment.environment = world_environment
 	set_enable_clipping(enable_clipping)
 	
 	for node in meshes.find_children("*"):
+		var shader = gradient_shader if node.is_in_group("gradient") else solid_shader
+		
 		if node is MeshInstance3D:
-			node.set_surface_override_material(0, clipping_shader)
+			node.set_surface_override_material(0, shader)
 		if node is CSGBox3D:
-			node.set_material(clipping_shader)
+			node.set_material(shader)
 	
 	for icon in icons.get_children():
 		icon.target = player
 
 func _process(_delta):
-	clipping_shader.set_shader_parameter("position", player.global_position)
-	clipping_shader.set_shader_parameter("visible_distance", player.view_range)
+	solid_shader.set_shader_parameter("position", player.global_position)
+	solid_shader.set_shader_parameter("visible_distance", player.view_range)
+	gradient_shader.set_shader_parameter("position", player.global_position)
+	gradient_shader.set_shader_parameter("visible_distance", player.view_range)
 
 func set_enable_clipping(enabled: bool):
 	enable_clipping = enabled
-	clipping_shader.set_shader_parameter("enable_clipping", enabled)
+	solid_shader.set_shader_parameter("enable_clipping", enabled)
+	gradient_shader.set_shader_parameter("enable_clipping", enabled)

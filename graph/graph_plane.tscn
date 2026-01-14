@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://di21jyrid7rgf"]
-
-[ext_resource type="PlaneMesh" uid="uid://bhnfffkk432k6" path="res://graph/graph_plane_mesh.tres" id="1_bwgla"]
-
-[node name="GraphPlane" type="MeshInstance3D"]
-mesh = ExtResource("1_bwgla")

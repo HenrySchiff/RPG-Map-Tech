@@ -11,11 +11,16 @@ var position_target: Vector3 = Vector3.ZERO
 		view_range = value
 		call_deferred("_apply_view_range")
 
+var target_view_range = view_range
+
 func _apply_view_range():
 	collision_shape_3d.shape.size = Vector3.ONE * view_range * 2.0
 	graph_cube.edge_length = view_range * 2.0
 
 func _process(delta):
+	if !is_equal_approx(view_range, target_view_range):
+		view_range = Util.lerpdt(view_range, target_view_range, 0.0001, delta)
+	
 	var movement := Vector3.ZERO
 	
 	if Input.is_action_just_pressed("move_left"):

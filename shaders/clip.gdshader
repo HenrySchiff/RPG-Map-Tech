@@ -6,11 +6,18 @@ uniform float visible_distance = 0.55;
 uniform vec3 position = vec3(0.0);
 uniform vec3 albedo_color = vec3(0.25, 0.25, 0.25);
 
+uniform vec3 gradient_color_a: source_color;
+uniform vec3 gradient_color_b: source_color;
+
+uniform float gradient_upper_bound;
+uniform float gradient_lower_bound;
+
 varying vec3 extent;
 varying vec3 vertex_val;
 
 void vertex() {
 	extent = VERTEX - position;
+	vertex_val = VERTEX;
 }
 
 void fragment() {
@@ -24,7 +31,9 @@ void fragment() {
 	) {
 		discard;
 	}
-
-	ALBEDO = albedo_color;
-	//ALBEDO = vec3(vertex_val.y, vertex_val.y, vertex_val.y);
+	
+	//ALBEDO = albedo_color;
+	float h = gradient_upper_bound - gradient_lower_bound;
+	float t = (vertex_val.y - gradient_lower_bound) / h;
+	ALBEDO = mix(gradient_color_b, gradient_color_a, t);
 }

@@ -10,7 +10,8 @@ varying float vert_y;
 
 float get_height(vec2 uv) {
 	//return texture(noise, uv).x * height_scale;
-	return sin(uv.x * 2.0) * cos(uv.y * 2.0);
+	//return sin(uv.x * 2.0) * cos(uv.y * 2.0);
+	return sin(uv.x * 2.0) - sin(uv.y * 2.0);
 }
 
 void vertex() {

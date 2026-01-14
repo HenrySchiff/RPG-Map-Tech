@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://crg3oxps7ejta"]
+[gd_scene load_steps=15 format=3 uid="uid://crg3oxps7ejta"]
 
 [ext_resource type="Script" uid="uid://7tnil56w35pk" path="res://graph/graph_cube.gd" id="1_0bdpa"]
 [ext_resource type="Shader" uid="uid://cv1u6oog1gxqy" path="res://graph/graph_plane.gdshader" id="3_pk28m"]
@@ -6,39 +6,103 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0bdpa"]
 render_priority = 0
 shader = ExtResource("3_pk28m")
-shader_parameter/grid_size = 20
-shader_parameter/line_thickness = 0.03
-shader_parameter/line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
-shader_parameter/face_color = Color(1, 1, 1, 0)
-shader_parameter/edge = 0.5
-shader_parameter/pos_offset = Vector2(0, 0)
+shader_parameter/edge_length = 10.0
+shader_parameter/cell_length = 1.0
+shader_parameter/line_thickness = 0.05
+shader_parameter/edge_thickness = 0.1
+shader_parameter/position_offset = Vector2(0, 0)
+shader_parameter/line_color = Vector4(0, 0, 0, 0)
+shader_parameter/face_color = Vector4(0, 0, 0, 0)
+shader_parameter/edge_color = Vector4(0, 0, 0, 0)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_pk28m"]
 material = SubResource("ShaderMaterial_0bdpa")
 size = Vector2(10, 10)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_ty3us"]
-material = SubResource("ShaderMaterial_0bdpa")
-size = Vector2(10, 10)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ty3us"]
+render_priority = 0
+shader = ExtResource("3_pk28m")
+shader_parameter/edge_length = 10.0
+shader_parameter/cell_length = 1.0
+shader_parameter/line_thickness = 0.05
+shader_parameter/edge_thickness = 0.1
+shader_parameter/position_offset = Vector2(0, 0)
+shader_parameter/line_color = Vector4(0, 0, 0, 0)
+shader_parameter/face_color = Vector4(0, 0, 0, 0)
+shader_parameter/edge_color = Vector4(0, 0, 0, 0)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ie4pf"]
-material = SubResource("ShaderMaterial_0bdpa")
+material = SubResource("ShaderMaterial_ty3us")
 size = Vector2(10, 10)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_snb8x"]
-material = SubResource("ShaderMaterial_0bdpa")
-size = Vector2(10, 10)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_snb8x"]
+render_priority = 0
+shader = ExtResource("3_pk28m")
+shader_parameter/edge_length = 10.0
+shader_parameter/cell_length = 1.0
+shader_parameter/line_thickness = 0.05
+shader_parameter/edge_thickness = 0.1
+shader_parameter/position_offset = Vector2(0, 0)
+shader_parameter/line_color = Vector4(0, 0, 0, 0)
+shader_parameter/face_color = Vector4(0, 0, 0, 0)
+shader_parameter/edge_color = Vector4(0, 0, 0, 0)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_q6yc6"]
-material = SubResource("ShaderMaterial_0bdpa")
+material = SubResource("ShaderMaterial_snb8x")
 size = Vector2(10, 10)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_qrjeo"]
-material = SubResource("ShaderMaterial_0bdpa")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qrjeo"]
+render_priority = 0
+shader = ExtResource("3_pk28m")
+shader_parameter/edge_length = 10.0
+shader_parameter/cell_length = 1.0
+shader_parameter/line_thickness = 0.05
+shader_parameter/edge_thickness = 0.1
+shader_parameter/position_offset = Vector2(0, 0)
+shader_parameter/line_color = Vector4(0, 0, 0, 0)
+shader_parameter/face_color = Vector4(0, 0, 0, 0)
+shader_parameter/edge_color = Vector4(0, 0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b5wph"]
+material = SubResource("ShaderMaterial_qrjeo")
+size = Vector2(10, 10)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dls38"]
+render_priority = 0
+shader = ExtResource("3_pk28m")
+shader_parameter/edge_length = 10.0
+shader_parameter/cell_length = 1.0
+shader_parameter/line_thickness = 0.05
+shader_parameter/edge_thickness = 0.1
+shader_parameter/position_offset = Vector2(0, 0)
+shader_parameter/line_color = Vector4(0, 0, 0, 0)
+shader_parameter/face_color = Vector4(0, 0, 0, 0)
+shader_parameter/edge_color = Vector4(0, 0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6eljt"]
+material = SubResource("ShaderMaterial_dls38")
+size = Vector2(10, 10)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_obhqo"]
+render_priority = 0
+shader = ExtResource("3_pk28m")
+shader_parameter/edge_length = 10.0
+shader_parameter/cell_length = 1.0
+shader_parameter/line_thickness = 0.05
+shader_parameter/edge_thickness = 0.1
+shader_parameter/position_offset = Vector2(0, 0)
+shader_parameter/line_color = Vector4(0, 0, 0, 0)
+shader_parameter/face_color = Vector4(0, 0, 0, 0)
+shader_parameter/edge_color = Vector4(0, 0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ayxtk"]
+material = SubResource("ShaderMaterial_obhqo")
 size = Vector2(10, 10)
 
 [node name="GraphCube" type="Node3D"]
 script = ExtResource("1_0bdpa")
+line_color = Color(0.601223, 0.601223, 0.60122293, 1)
+face_color = Color(1, 1, 1, 0)
 
 [node name="PlanePosXY" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 5)
@@ -46,20 +110,20 @@ mesh = SubResource("PlaneMesh_pk28m")
 
 [node name="PlaneNegXY" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -5)
-mesh = SubResource("PlaneMesh_ty3us")
+mesh = SubResource("PlaneMesh_ie4pf")
 
 [node name="PlanePosZY" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 5, 0, 0)
-mesh = SubResource("PlaneMesh_ie4pf")
+mesh = SubResource("PlaneMesh_q6yc6")
 
 [node name="PlaneNegZY" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -5, 0, 0)
-mesh = SubResource("PlaneMesh_snb8x")
+mesh = SubResource("PlaneMesh_b5wph")
 
 [node name="PlanePosXZ" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 5, 0)
-mesh = SubResource("PlaneMesh_q6yc6")
+mesh = SubResource("PlaneMesh_6eljt")
 
 [node name="PlaneNegXZ" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
-mesh = SubResource("PlaneMesh_qrjeo")
+mesh = SubResource("PlaneMesh_ayxtk")

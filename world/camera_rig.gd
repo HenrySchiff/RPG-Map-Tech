@@ -4,8 +4,10 @@ class_name CameraRig extends Node3D
 @onready var camera_arm = $CameraArm
 @onready var camera: Camera3D = $CameraArm/Camera3D
 
-#TODO: support perspective projection
-@export var is_orthogonal: bool = true
+@export var is_orthogonal: bool = true:
+	set(value):
+		is_orthogonal = value
+		call_deferred("_apply_is_orthogonal")
 
 const ROTATION_Y_STEP: float = deg_to_rad(45.0)
 const ROTATION_X_STEP: float = deg_to_rad(30.0)
@@ -23,10 +25,7 @@ var position_target: Vector3 = Vector3.ZERO
 var zoom_target: float = 12.0
 
 func _ready():
-	if is_orthogonal:
-		camera.set_projection(Camera3D.PROJECTION_ORTHOGONAL)
-	else:
-		camera.set_projection(Camera3D.PROJECTION_PERSPECTIVE)
+	_apply_is_orthogonal()
 
 func _process(delta):
 	
@@ -47,6 +46,11 @@ func _process(delta):
 			camera.size = Util.lerpdt(camera.size, zoom_target, 0.00001, delta)
 		else:
 			camera.position.z = Util.lerpdt(camera.position.z, zoom_target, 0.0001, delta)
+
+#TODO: adjust zooming to be consistent across both projections
+func _apply_is_orthogonal():
+	var projection := Camera3D.PROJECTION_ORTHOGONAL if is_orthogonal else Camera3D.PROJECTION_PERSPECTIVE
+	camera.set_projection(projection)
 
 func sync_targets(other: CameraRig):
 	rotation_x_target = other.rotation_x_target

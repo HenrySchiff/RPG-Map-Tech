@@ -1,12 +1,23 @@
-[gd_scene load_steps=16 format=3 uid="uid://cg3jiw7ljulh5"]
+[gd_scene load_steps=13 format=3 uid="uid://cg3jiw7ljulh5"]
 
 [ext_resource type="Script" uid="uid://cibjbsl3omerf" path="res://world/world.gd" id="1_ig7tw"]
 [ext_resource type="Shader" uid="uid://cvasxjvsdc5a0" path="res://shaders/test.gdshader" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://182hdqirsi56" path="res://world/player.tscn" id="3_036b0"]
 [ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://world/camera_rig.tscn" id="4_1bvp3"]
-[ext_resource type="ArrayMesh" uid="uid://bfjogfq6g6yb4" path="res://assets/Mesher.obj" id="4_dwbse"]
 [ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="5_036b0"]
-[ext_resource type="Environment" uid="uid://csf112rx002o" path="res://resources/world_environment.tres" id="6_fn3g3"]
+[ext_resource type="Environment" uid="uid://csf112rx002o" path="res://world/resources/world_environment.tres" id="6_fn3g3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sc4t8"]
+render_priority = 0
+shader = ExtResource("2_1bvp3")
+shader_parameter/height_scale = 0.25
+shader_parameter/texel_size = 0.01
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8uh7m"]
+material = SubResource("ShaderMaterial_sc4t8")
+size = Vector2(10, 10)
+subdivide_width = 32
+subdivide_depth = 32
 
 [sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
 size = Vector3(2, 8, 3)
@@ -20,37 +31,24 @@ size = Vector3(2, 10, 3)
 [sub_resource type="BoxMesh" id="BoxMesh_272bh"]
 size = Vector3(2, 4, 3)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_8uh7m"]
-size = Vector2(10, 10)
-subdivide_width = 32
-subdivide_depth = 32
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_37kl0"]
-noise_type = 0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8uh7m"]
-noise = SubResource("FastNoiseLite_37kl0")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6uqi0"]
-render_priority = 0
-shader = ExtResource("2_1bvp3")
-shader_parameter/height_scale = 0.75
-shader_parameter/noise = SubResource("NoiseTexture2D_8uh7m")
-shader_parameter/texel_size = 0.1
-
 [node name="World" type="Node3D"]
 script = ExtResource("1_ig7tw")
 
 [node name="Player" parent="." instance=ExtResource("3_036b0")]
-view_range = 10.0
+view_range = 30.0
 
 [node name="CameraRig" parent="Player" instance=ExtResource("4_1bvp3")]
 
 [node name="Meshes" type="Node3D" parent="."]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" groups=["gradient"]]
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, -12, 0)
-mesh = ExtResource("4_dwbse")
+
+[node name="TerrainTest" type="MeshInstance3D" parent="Meshes" groups=["gradient"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.5, 0)
+visible = false
+mesh = SubResource("PlaneMesh_8uh7m")
+skeleton = NodePath("../..")
 
 [node name="Box2" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 9, -5, 11)
@@ -78,7 +76,7 @@ mesh = SubResource("BoxMesh_272bh")
 skeleton = NodePath("../..")
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="Meshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -3, -24.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -4.5, -23.5)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Meshes/CSGCombiner3D"]
 size = Vector3(3, 8, 2)
@@ -89,7 +87,7 @@ operation = 2
 size = Vector3(2, 1, 2)
 
 [node name="CSGCombiner3D2" type="CSGCombiner3D" parent="Meshes"]
-transform = Transform3D(-0.8660253, 0, -0.49999997, 0, 1, 0, 0.49999997, 0, -0.8660253, -5, -3, -23)
+transform = Transform3D(-0.8660253, 0, -0.49999997, 0, 1, 0, 0.49999997, 0, -0.8660253, -5.5, -4, -23)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Meshes/CSGCombiner3D2"]
 size = Vector3(3, 8, 2)
@@ -105,17 +103,13 @@ size = Vector3(2, 1, 2)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 4)
 icon_type = 1
 label_text = "ENMY"
+color = Color(0.8959465, 1.1551381e-06, 1.4439225e-06, 1)
 
 [node name="EnemyIcon2" parent="Icons" instance=ExtResource("5_036b0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -2)
 icon_type = 1
 label_text = "GAHHHff"
-
-[node name="TerrainTest" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
-visible = false
-mesh = SubResource("PlaneMesh_8uh7m")
-surface_material_override/0 = SubResource("ShaderMaterial_6uqi0")
+color = Color(2.5990605e-06, 0.51746273, 0.837438, 1)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.8052768, 0.335762, -0.48866463, 0, 0.8241954, 0.5663055, 0.592899, -0.4560327, 0.6637054, 0, 10, 0)

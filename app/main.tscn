@@ -12,11 +12,13 @@ script = ExtResource("1_ig7tw")
 
 [node name="DisplayWindow" parent="." instance=ExtResource("2_0xm2m")]
 
-[node name="GUI" parent="." node_paths=PackedStringArray("player_control", "player", "enemy1", "enemy2") instance=ExtResource("3_ysqge")]
+[node name="GUI" parent="." node_paths=PackedStringArray("player_control", "player", "enemy1", "enemy2", "control_window", "display_window") instance=ExtResource("3_ysqge")]
 player_control = NodePath("../ControlWindow/SubViewportContainer/SubViewport/World/Player")
 player = NodePath("../DisplayWindow/SubViewportContainer/SubViewport/World/Player")
 enemy1 = NodePath("../ControlWindow/SubViewportContainer/SubViewport/World/Icons/EnemyIcon")
 enemy2 = NodePath("../ControlWindow/SubViewportContainer/SubViewport/World/Icons/EnemyIcon2")
+control_window = NodePath("../ControlWindow")
+display_window = NodePath("../DisplayWindow")
 
 [node name="InputManager" type="Node" parent="." node_paths=PackedStringArray("control_window", "display_window", "gui")]
 script = ExtResource("4_8bux2")

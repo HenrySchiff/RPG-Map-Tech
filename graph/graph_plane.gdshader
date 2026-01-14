@@ -1,56 +1,52 @@
 shader_type spatial;
 render_mode unshaded;
 
-uniform int grid_size : hint_range(1, 1000) = 10;
-uniform float line_thickness : hint_range(0.001, 0.1) = 0.01;
-uniform vec4 line_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
-uniform vec4 face_color : source_color = vec4(1.0, 1.0, 1.0, 0.0);
-uniform float edge : hint_range(-1.0, 4.0) = 0.5;
-uniform vec2 pos_offset = vec2(0.0, 0.0);
+uniform float edge_length = 10.0;
+uniform float cell_length = 1.0;
+uniform float line_thickness = 0.5;
+uniform float edge_thickness = 0.5;
 
-const vec3 BLACK = vec3(0.0, 0.0, 0.0);
+uniform vec2 position_offset;
+
+uniform vec4 line_color;
+uniform vec4 face_color;
+uniform vec4 edge_color;
 
 bool close_to(float a, float b, float epsilon) {
 	return abs(a - b) <= epsilon;
 }
 
 void fragment() {
-	// UV coordinates for this face (0..1)
-	//vec2 uv = UV * vec2(scale_x, scale_y) - vec2(offset_x, offset_y);
-	vec2 offset = vec2(1.0, 1.0) * (1.0 / (float(grid_size) * 2.0));
-	offset += pos_offset;
-	//vec2 scale = vec2(3.0, 2.0);
-	vec2 uv = UV - offset;
-	
-	// Scale UV to the number of lines
-	vec2 grid = uv * float(grid_size);
-	
-	// Compute distance to nearest line
-	vec2 line_dist = abs(fract(grid) - 0.5);
-	
-	// Check if the pixel is within line_thickness
-	float mask = step(line_dist.x, line_thickness) + step(line_dist.y, line_thickness);
-	mask = clamp(mask, 0.0, 1.0);
-	
-	// Mix between face color and line color
-	vec4 final = mix(face_color, line_color, mask);
-	ALBEDO = final.xyz;
-	//ALPHA = final.a;
-	if (final == face_color) {
-		ALPHA = 0.0;
-	}
-	
-	uv += offset;
-	
-	//if (close_to(uv.x, edge, 0.01) || close_to(uv.y, edge, 0.01)) {
-		//ALBEDO = vec3(1.0, 0.0, 0.0);
-	//}
-	
-	if (close_to(uv.x, 0.0, 0.01) || close_to(uv.y, 0.0, 0.01)) {
-		ALBEDO = BLACK;
-	}
-	
-	if (close_to(uv.x, 1.0, 0.01) || close_to(uv.y, 1.0, 0.01)) {
-		ALBEDO = BLACK;
-	}
+	float avg_lines_per_edge = edge_length / cell_length;
+
+	vec2 offset = vec2(1.0, 1.0) * (1.0 / (float(avg_lines_per_edge) * 2.0));
+	offset += position_offset;
+
+	vec3 color = face_color.rgb;
+	float alpha = face_color.a;
+
+	// grid
+	vec2 grid = (UV - offset) * avg_lines_per_edge;
+	vec2 line_dist = abs(fract(grid) - 0.5) * 2.0;
+	float grid_mask =
+	    step(line_dist.x, line_thickness) +
+	    step(line_dist.y, line_thickness);
+	grid_mask = clamp(grid_mask, 0.0, 1.0);
+
+	color = mix(color, line_color.rgb, grid_mask);
+	alpha = mix(alpha, line_color.a, grid_mask);
+
+	// edges
+	vec2 scaled_uv = UV * edge_length;
+	vec2 edge_dist = min(scaled_uv, edge_length - scaled_uv);
+	float edge_mask =
+	    step(edge_dist.x, edge_thickness) +
+	    step(edge_dist.y, edge_thickness);
+	edge_mask = clamp(edge_mask, 0.0, 1.0);
+
+	color = mix(color, edge_color.rgb, edge_mask);
+	alpha = mix(alpha, edge_color.a, edge_mask);
+
+	ALBEDO = color;
+	ALPHA = alpha;
 }

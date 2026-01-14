@@ -1,24 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://1taoydfjd14q"]
+[gd_scene load_steps=6 format=3 uid="uid://1taoydfjd14q"]
 
 [ext_resource type="Script" uid="uid://v84nibqomwyu" path="res://world/icon.gd" id="1_hqyvl"]
+[ext_resource type="Shader" uid="uid://dvt8hh1hyq3e" path="res://shaders/icon.gdshader" id="2_ostuu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ostuu"]
+render_priority = 0
+shader = ExtResource("2_ostuu")
+shader_parameter/line_length = 0.0
+shader_parameter/line_color = Vector3(0, 0, 0)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_hqyvl"]
+material = SubResource("ShaderMaterial_ostuu")
 top_radius = 0.03
 bottom_radius = 0.03
 height = 4.7169905
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8a5nq"]
-shading_mode = 0
-albedo_color = Color(0.8426348, 2.0696223e-06, 5.7756904e-07, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hqyvl"]
 radius = 0.25
 
 [node name="Icon" type="Node3D"]
 script = ExtResource("1_hqyvl")
-icon_type = null
 label_text = "Enemy"
-enable_clipping = null
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 0, 0, 0)
@@ -43,7 +45,6 @@ transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_hqyvl")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_8a5nq")
 
 [node name="Area3D" type="Area3D" parent="."]
 

@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://curj5shqinovb"]
+
+[ext_resource type="Shader" uid="uid://w68huqsyfrb3" path="res://shaders/clip.gdshader" id="1_gkp0u"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_gkp0u")
+shader_parameter/enable_clipping = true
+shader_parameter/visible_distance = 100.0
+shader_parameter/position = Vector3(0, 0, 0)
+shader_parameter/albedo_color = Vector3(0.25, 0.25, 0.25)
+shader_parameter/gradient_color_a = Color(0.8980392, 0.7294118, 0, 1)
+shader_parameter/gradient_color_b = Color(0.5921569, 0.02745098, 0, 1)
+shader_parameter/gradient_upper_bound = -3.0
+shader_parameter/gradient_lower_bound = -10.0

@@ -17,10 +17,8 @@ shape = SubResource("BoxShape3D_036b0")
 debug_color = Color(0.66865796, 0.36691535, 0.8855333, 0.6392157)
 
 [node name="GraphCube" parent="." instance=ExtResource("1_4flbx")]
-edge_length = 20.0
-cells_per_edge = 20
-line_color = Color(0.70796657, 0.7079665, 0.7079665, 1)
-line_thickness = 0.03
+edge_length = 14.0
+line_color = Color(0.52906674, 0.5290667, 0.5290667, 1)
 
 [node name="Icon" parent="." instance=ExtResource("2_i3pqv")]
 icon_type = 0
