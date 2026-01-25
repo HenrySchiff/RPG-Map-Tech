@@ -1,21 +1,21 @@
+#NOTE: using node paths for GUI ID's. May break between frames if a node's path changes
+
 extends Node
 
-@export var player_control: Node3D
-@export var player: Node3D
-@export var enemy1: Node3D
-@export var enemy2: Node3D
-
-@export var control_window: Window
-@export var display_window: Window
+@export var control_window: CustomWindow
+@export var display_window: CustomWindow
 
 var world_environment: Environment = preload("res://world/resources/world_environment.tres")
 
 var sync_cameras = [true]
 var orthogonal_projection = [true]
+var show_outline = [true]
 
 var view_distance = [5.0]
 
 const font_scale: float = 1.8
+
+var speed_test = [1]
 
 func _process(_delta):
 	
@@ -23,46 +23,89 @@ func _process(_delta):
 	
 	ImGui.Begin("Configuration")
 	ImGui.SetWindowFontScale(font_scale)
-	ImGui.SeparatorText("World")
 	
-	world_environment.background_color = color_picker("Background color", world_environment.background_color)
+	#ImGui.SeparatorText("Camera")
+	if ImGui.TreeNode("Camera"):
+		ImGui.Checkbox("Sync cameras", sync_cameras)
+		if ImGui.Checkbox("Orthogonal projection", orthogonal_projection):
+			display_window.camera.is_orthogonal = orthogonal_projection[0]
+			control_window.camera.is_orthogonal = orthogonal_projection[0]
+		ImGui.TreePop()
 	
-	color_picker_shader("Gradient color A", control_window.world.gradient_shader, "gradient_color_a")
-	color_picker_shader("Gradient color B", control_window.world.gradient_shader, "gradient_color_b")
 	
-	ImGui.SeparatorText("Camera")
-	ImGui.Checkbox("Sync cameras", sync_cameras)
-	if ImGui.Checkbox("Orthogonal projection", orthogonal_projection):
-		display_window.world.camera.is_orthogonal = orthogonal_projection[0]
-		control_window.world.camera.is_orthogonal = orthogonal_projection[0]
+	#ImGui.SeparatorText("World")
+	if ImGui.TreeNode("World"):
+		color_picker("Background color", world_environment, "background_color")
+		color_picker_shader("Gradient color A", control_window.world.gradient_shader, "gradient_color_a")
+		color_picker_shader("Gradient color B", control_window.world.gradient_shader, "gradient_color_b")
+		ImGui.TreePop()
+	
+	#ImGui.SeparatorText("Graph")
+	if ImGui.TreeNode("Graph"):
+		if ImGui.Checkbox("Show outline", show_outline):
+			display_window.player.graph_cube.hide_outside_faces = !show_outline[0]
+		color_picker_alpha("Face color", display_window.player.graph_cube, "face_color")
+		float_slider("Cell length", display_window.player.graph_cube, "cell_length", 0.25, 4.0, "%.2f")
+		color_picker("Line color", display_window.player.graph_cube, "line_color")
+		float_slider("Line thickness", display_window.player.graph_cube, "line_thickness", 0.01, 0.20, "%.2f")
+		color_picker("Edge color", display_window.player.graph_cube, "edge_color")
+		float_slider("Edge thickness", display_window.player.graph_cube, "edge_thickness", 0.01, 0.20, "%.2f")
+		ImGui.TreePop()
+	
+	if ImGui.TreeNode("Text"):
+		int_slider("Icon font size", display_window.world, "icon_font_size", 32, 256)
+		ImGui.TreePop()
+	
 	ImGui.End()
 	
 	ImGui.Begin("Entities")
 	ImGui.SetWindowFontScale(font_scale)
 	ImGui.SeparatorText("Player")
-	#player_position = vector_step_input("Position", player_position)
-	player.position_target = vector_step_input("Position", player.position_target)
+	display_window.player.position_target = vector_step_input("Position", display_window.player.position_target)
 	
-	var view_range = [player.target_view_range]
-	#if ImGui.SliderFloatEx("View distance", view_range, 5.0, 50.0, "%.1f"):
+	var view_range = [display_window.player.target_view_range]
 	if ImGui.InputFloatEx("View distance", view_range, 1.0, 1.0, "%.1f"):
-		player.target_view_range = view_range[0]
+		display_window.player.target_view_range = view_range[0]
+		
+	var speed = [display_window.player.movement_component.speed]
+	if ImGui.InputFloatEx("Speed", speed, 1.0, 1.0, "%.1f"):
+		display_window.player.movement_component.speed = clamp(speed[0], 2.0, 10.0)
 	
-	#if ImGui.Button("increase view"):
-		#player.increase_view()
-	
-	ImGui.SeparatorText("Enemies")
-	#enemy1.position = vector_step_input("Position", enemy1.position)
-	#enemy2.position = vector_step_input("Position", enemy2.position)
+	if ImGui.TreeNode("Enemies"):
+		for enemy: Icon in control_window.world.enemies.get_children():
+			if ImGui.TreeNode(str(enemy.get_path())):
+				enemy.position = vector_step_input("Position", enemy.position, enemy.get_path())
+				ImGui.InputText("Name", enemy.label_text_buffer, 32)
+				enemy.label_text_buffer = enemy.label_text_buffer
+				color_picker("Color", enemy, "color")
+				ImGui.TreePop()
+		ImGui.TreePop()
 	ImGui.End()
 
-func color_picker(label: String, ref_color: Color) -> Color:
-	var col := [ref_color.r, ref_color.g, ref_color.b]
+
+func int_slider(label: String, object: Object, property_name: String, min_v, max_v):
+	var property = [object.get(property_name)]
+	if ImGui.SliderInt(label, property, min_v, max_v):
+		object.set(property_name, property[0])
+
+func float_slider(label: String, object: Object, property_name: String, min_v, max_v, format):
+	var property = [object.get(property_name)]
+	if ImGui.SliderFloatEx(label, property, min_v, max_v, format):
+		object.set(property_name, property[0])
+
+func color_picker(label: String, object: Object, property_name: String) -> void:
+	var property: Color = object.get(property_name)
+	var color := [property.r, property.g, property.b]
 	
-	if ImGui.ColorEdit3(label, col):
-		return Color(col[0], col[1], col[2])
+	if ImGui.ColorEdit3(label, color):
+		object.set(property_name, Color(color[0], color[1], color[2]))
+
+func color_picker_alpha(label: String, object: Object, property_name: String) -> void:
+	var property: Color = object.get(property_name)
+	var color := [property.r, property.g, property.b, property.a]
 	
-	return ref_color
+	if ImGui.ColorEdit4(label, color):
+		object.set(property_name, Color(color[0], color[1], color[2], color[3]))
 
 func color_picker_shader(label: String, shader: ShaderMaterial, param: String) -> void:
 	var ref_color := shader.get_shader_parameter(param) as Color
@@ -71,12 +114,11 @@ func color_picker_shader(label: String, shader: ShaderMaterial, param: String) -
 	if ImGui.ColorEdit3(label, col):
 		shader.set_shader_parameter(param, Color(col[0], col[1], col[2]))
 
-func vector_step_input(label: String, ref_vector: Vector3) -> Vector3:
-	#id += 1
+func vector_step_input(label: String, ref_vector: Vector3, id: String = "") -> Vector3:
 	var step: float = 1.0
 	var fast_step: float = 1.0
 	
-	ImGui.PushID("VectorStepButtons")
+	ImGui.PushID(id)
 	ImGui.PushItemWidth(ImGui.CalcItemWidth() / 3.0)
 	
 	ImGui.AlignTextToFramePadding()
@@ -108,3 +150,13 @@ func vector_step_input(label: String, ref_vector: Vector3) -> Vector3:
 	ImGui.PopID()
 	
 	return ref_vector
+
+#func text_input(label: String, string: String):
+func text_input(label: String, object: Object, property_name: String, id: String = ""):
+	var string = [object.get(property_name)]
+	#var buffer = Array(string.split(""))
+	
+	ImGui.PushID(id)
+	if ImGui.InputText(label, string, 32):
+		object.set(property_name, string[0])
+		#string = "".join(buffe

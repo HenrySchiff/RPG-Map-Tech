@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://qxjn1y7gtx8g"]
+
+[ext_resource type="Script" uid="uid://dujj2pxb57v3m" path="res://player/movement_display.gd" id="1_67fdy"]
+[ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="2_t7phm"]
+
+[sub_resource type="Curve3D" id="Curve3D_4nodc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ostuu"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_t7phm"]
+material = SubResource("StandardMaterial3D_ostuu")
+top_radius = 0.03
+bottom_radius = 0.03
+
+[node name="MovementDisplay" type="Node3D"]
+script = ExtResource("1_67fdy")
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_4nodc")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+
+[node name="Icon" parent="Path3D/PathFollow3D" instance=ExtResource("2_t7phm")]
+
+[node name="DirectionVector" type="Node3D" parent="Path3D/PathFollow3D/Icon"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D/Icon/DirectionVector"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -1)
+mesh = SubResource("CylinderMesh_t7phm")
+skeleton = NodePath("../..")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+visible = false
+mode = 2
+path_node = NodePath("../Path3D")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 1
+path_rotation_accurate = false
+path_local = false
+path_continuous_u = false
+path_u_distance = 1.0
+path_joined = false
+
+[node name="IndicatorPivot" type="Node3D" parent="."]
+
+[node name="Indicators" type="Node3D" parent="IndicatorPivot"]

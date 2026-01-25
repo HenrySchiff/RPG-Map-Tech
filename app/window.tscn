@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0dl2am07r452"]
+[gd_scene load_steps=5 format=3 uid="uid://b0dl2am07r452"]
 
 [ext_resource type="Script" uid="uid://b0unis1pcvqme" path="res://app/window.gd" id="1_hjewq"]
 [ext_resource type="Script" uid="uid://bu644m8shoglc" path="res://app/sub_viewport_container.gd" id="2_srjdr"]
 [ext_resource type="PackedScene" uid="uid://cg3jiw7ljulh5" path="res://world/world.tscn" id="3_nfq5s"]
+[ext_resource type="Script" uid="uid://cxbhcnosa1crx" path="res://app/node_2d.gd" id="4_neids"]
 
 [node name="Window" type="Window"]
 oversampling_override = 1.0
@@ -34,3 +35,6 @@ offset_right = 40.0
 offset_bottom = 23.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Test"
+
+[node name="Node2D" type="Node2D" parent="CanvasLayer"]
+script = ExtResource("4_neids")

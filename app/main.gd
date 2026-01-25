@@ -15,7 +15,9 @@ func _ready():
 	load_config()
 	
 	control_window.world.set_enable_clipping(false)
-	control_cube.hide_faces = true
+	#control_cube.hide_faces = true
+	control_cube.line_thickness = 0.0
+	control_cube.face_color.a = 0.0
 	
 	display_window.close_requested.connect(save_and_quit)
 	control_window.close_requested.connect(save_and_quit)
@@ -25,9 +27,9 @@ func _ready():
 	
 	ImGuiGD.SetMainViewport(control_window)
 
-func _process(_delta):
-	if gui.sync_cameras[0]:
-		display_window.world.camera.sync_targets(control_window.world.camera)
+#func _process(_delta):
+	#if gui.sync_cameras[0]:
+		#display_window.camera.sync_targets(control_window.camera)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

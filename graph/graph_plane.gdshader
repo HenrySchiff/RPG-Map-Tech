@@ -6,6 +6,8 @@ uniform float cell_length = 1.0;
 uniform float line_thickness = 0.5;
 uniform float edge_thickness = 0.5;
 
+uniform float smooth_factor = 1.0;
+
 uniform vec2 position_offset;
 
 uniform vec4 line_color;

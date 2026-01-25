@@ -13,8 +13,3 @@ void fragment() {
 	ALPHA = step(fract(line), 0.5);
 	ALBEDO = line_color;
 }
-
-//void light() {
-//	// Called for every pixel for every light affecting the material.
-//	// Uncomment to replace the default light processing function with this one.
-//}

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://tndy7e3sj2ts" path="res://app/main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://b0dl2am07r452" path="res://app/window.tscn" id="2_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://b018lytxrpfsx" path="res://app/gui/gui.tscn" id="3_ysqge"]
+[ext_resource type="Script" uid="uid://c8t0akntu8kqg" path="res://app/gui/gui.gd" id="3_8bux2"]
 [ext_resource type="Script" uid="uid://x8gqcyqlt678" path="res://app/input_manager.gd" id="4_8bux2"]
 
 [node name="Main" type="Node"]
@@ -12,11 +12,8 @@ script = ExtResource("1_ig7tw")
 
 [node name="DisplayWindow" parent="." instance=ExtResource("2_0xm2m")]
 
-[node name="GUI" parent="." node_paths=PackedStringArray("player_control", "player", "enemy1", "enemy2", "control_window", "display_window") instance=ExtResource("3_ysqge")]
-player_control = NodePath("../ControlWindow/SubViewportContainer/SubViewport/World/Player")
-player = NodePath("../DisplayWindow/SubViewportContainer/SubViewport/World/Player")
-enemy1 = NodePath("../ControlWindow/SubViewportContainer/SubViewport/World/Icons/EnemyIcon")
-enemy2 = NodePath("../ControlWindow/SubViewportContainer/SubViewport/World/Icons/EnemyIcon2")
+[node name="GUI" type="Node" parent="." node_paths=PackedStringArray("control_window", "display_window")]
+script = ExtResource("3_8bux2")
 control_window = NodePath("../ControlWindow")
 display_window = NodePath("../DisplayWindow")
 

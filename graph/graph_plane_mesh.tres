@@ -10,9 +10,9 @@ shader_parameter/cell_length = 1.0
 shader_parameter/line_thickness = 0.5
 shader_parameter/edge_thickness = 0.5
 shader_parameter/position_offset = Vector2(0, 0)
-shader_parameter/line_color = Vector3(0, 0, 0)
-shader_parameter/face_color = Vector3(0, 0, 0)
-shader_parameter/edge_color = Vector3(0, 0, 0)
+shader_parameter/line_color = Vector4(0, 0, 0, 0)
+shader_parameter/face_color = Vector4(0, 0, 0, 0)
+shader_parameter/edge_color = Vector4(0, 0, 0, 0)
 
 [resource]
 material = SubResource("ShaderMaterial_27sxh")

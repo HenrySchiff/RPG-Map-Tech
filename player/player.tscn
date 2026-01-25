@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://182hdqirsi56"]
+
+[ext_resource type="PackedScene" uid="uid://crg3oxps7ejta" path="res://graph/graph_cube.tscn" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://b72paykfkc25l" path="res://player/player.gd" id="1_onrkg"]
+[ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="2_i3pqv"]
+[ext_resource type="Script" uid="uid://bweeqby8b2nq1" path="res://player/movement_component.gd" id="5_qjkh3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_036b0"]
+size = Vector3(20, 20, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yw30f"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mmw4h"]
+material = SubResource("StandardMaterial3D_yw30f")
+top_radius = 0.03
+bottom_radius = 0.03
+
+[node name="Player" type="Node3D"]
+script = ExtResource("1_onrkg")
+
+[node name="Area3D" type="Area3D" parent="."]
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_036b0")
+debug_color = Color(0.66865796, 0.36691535, 0.8855333, 0.6392157)
+
+[node name="GraphCube" parent="." instance=ExtResource("1_4flbx")]
+edge_length = 14.0
+line_color = Color(0.52906674, 0.5290667, 0.5290667, 1)
+line_thickness = 0.03
+edge_thickness = 0.03
+
+[node name="Icon" parent="." instance=ExtResource("2_i3pqv")]
+label_text = "PLYR"
+
+[node name="MovementComponent" type="Node3D" parent="."]
+script = ExtResource("5_qjkh3")
+metadata/_custom_type_script = "uid://bweeqby8b2nq1"
+
+[node name="DirectionVector" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DirectionVector"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -1)
+mesh = SubResource("CylinderMesh_mmw4h")
+skeleton = NodePath("../..")

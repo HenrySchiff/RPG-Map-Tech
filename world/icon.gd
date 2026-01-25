@@ -8,28 +8,44 @@ enum IconType {
 const dot_texture: Texture2D = preload("res://assets/dot.svg")
 const cross_texture: Texture2D = preload("res://assets/cross.svg")
 
+var label_text_buffer: Array[String] = [""]:
+	set(value):
+		label_text_buffer = value
+		label_text = value[0]
+		label.text = value[0]
+
+@export var label_text: String
 @export var icon_type: IconType = IconType.DOT
-@export var label_text: String = ""
 @export var target: Node3D = null
-@export var color: Color = Color.RED
+
+@export var color: Color = Color.RED:
+	set(value):
+		color = value
+		call_deferred("_apply_color")
 
 @onready var world: Node3D = find_parent("World")
 @onready var sprite_3d: Sprite3D = $Sprite3D
 @onready var line_node = $LineNode
 @onready var line = $LineNode/Line
-@onready var area_3d = $Area3D
+@onready var visible_area = $VisibleArea
+@onready var clickable_area = $ClickableArea
 @onready var label = $Label3D
 
+signal clicked
+
 func _ready():
+	add_to_group("icons")
+	
 	#NOTE: make unqiue not working for some reason
 	line.mesh = line.mesh.duplicate_deep()
 	
 	_apply_icon_type()
-	_apply_color()
 	
 	label.text = label_text
-	area_3d.connect("area_entered", _handle_area_entered)
-	area_3d.connect("area_exited", _handle_area_exited)
+	label_text_buffer = [label_text]
+	#label_text_buffer.append("test")
+	visible_area.connect("area_entered", _handle_area_entered)
+	visible_area.connect("area_exited", _handle_area_exited)
 
 func _process(_delta):
 	if !target: return
@@ -58,6 +74,7 @@ func _apply_icon_type():
 
 func _apply_color():
 	line.mesh.get_material().set_shader_parameter("line_color", color);
+	sprite_3d.modulate = color
 
 func set_target_pos(target_pos: Vector3) -> void:
 	var distance: float = global_position.distance_to(target_pos)

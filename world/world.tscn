@@ -1,11 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://cg3jiw7ljulh5"]
+[gd_scene load_steps=15 format=3 uid="uid://cg3jiw7ljulh5"]
 
 [ext_resource type="Script" uid="uid://cibjbsl3omerf" path="res://world/world.gd" id="1_ig7tw"]
 [ext_resource type="Shader" uid="uid://cvasxjvsdc5a0" path="res://shaders/test.gdshader" id="2_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://182hdqirsi56" path="res://world/player.tscn" id="3_036b0"]
-[ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://world/camera_rig.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://182hdqirsi56" path="res://player/player.tscn" id="3_036b0"]
+[ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://player/camera_rig.tscn" id="4_1bvp3"]
+[ext_resource type="ArrayMesh" uid="uid://csj1otuhv2re6" path="res://assets/lowpoly.obj" id="4_sc4t8"]
 [ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="5_036b0"]
 [ext_resource type="Environment" uid="uid://csf112rx002o" path="res://world/resources/world_environment.tres" id="6_fn3g3"]
+[ext_resource type="PackedScene" uid="uid://qxjn1y7gtx8g" path="res://player/movement_display.tscn" id="8_ai45w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sc4t8"]
 render_priority = 0
@@ -37,12 +39,17 @@ script = ExtResource("1_ig7tw")
 [node name="Player" parent="." instance=ExtResource("3_036b0")]
 view_range = 30.0
 
-[node name="CameraRig" parent="Player" instance=ExtResource("4_1bvp3")]
+[node name="MovementDisplay" parent="." node_paths=PackedStringArray("entity") instance=ExtResource("8_ai45w")]
+entity = NodePath("../Player")
+
+[node name="CameraRig" parent="." node_paths=PackedStringArray("anchor") instance=ExtResource("4_1bvp3")]
+anchor = NodePath("../Player")
 
 [node name="Meshes" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" groups=["gradient"]]
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, -12, 0)
+mesh = ExtResource("4_sc4t8")
 
 [node name="TerrainTest" type="MeshInstance3D" parent="Meshes" groups=["gradient"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.5, 0)
@@ -97,18 +104,18 @@ transform = Transform3D(0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, 0
 operation = 2
 size = Vector3(2, 1, 2)
 
-[node name="Icons" type="Node3D" parent="."]
+[node name="Enemies" type="Node3D" parent="."]
 
-[node name="EnemyIcon" parent="Icons" instance=ExtResource("5_036b0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 4)
-icon_type = 1
+[node name="EnemyIcon" parent="Enemies" instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2, 4.5)
 label_text = "ENMY"
+icon_type = 1
 color = Color(0.8959465, 1.1551381e-06, 1.4439225e-06, 1)
 
-[node name="EnemyIcon2" parent="Icons" instance=ExtResource("5_036b0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -2)
+[node name="EnemyIcon2" parent="Enemies" instance=ExtResource("5_036b0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
+label_text = "ENMY_2"
 icon_type = 1
-label_text = "GAHHHff"
 color = Color(2.5990605e-06, 0.51746273, 0.837438, 1)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
