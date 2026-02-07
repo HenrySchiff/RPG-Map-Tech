@@ -1,6 +1,5 @@
 class_name CameraRig extends Node3D
 
-@onready var window: Window = find_parent("*Window")
 @onready var camera_arm = $CameraArm
 @onready var camera: Camera3D = $CameraArm/Camera3D
 

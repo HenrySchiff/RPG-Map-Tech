@@ -21,6 +21,10 @@ func _ready():
 		_update_curve()
 		#_update_pivot_transform()
 	)
+	
+	entity_movement.exit_angle_factor_changed.connect(func():
+		_update_curve()
+	)
 
 func _process(_delta):
 	_update_pivot_transform()
@@ -33,31 +37,38 @@ func _input(_event):
 		var local_point := path_3d.curve.get_point_position(1)
 		var world_point := path_3d.global_transform * local_point
 		
-		var center_pos := entity.global_position + entity_movement.velocity
-		var dir := (world_point - center_pos).normalized()
+		#var center_pos := entity.global_position + entity_movement.velocity
+		#var dir := (world_point - center_pos).normalized()
 		
 		selected_indicator = null
 		
 		entity.position = world_point
 		entity.position_target = world_point
-		if !dir.is_zero_approx(): entity_movement.direction = dir
+		entity_movement.direction = -$Path3D/PathFollow3D.basis.z
+		#if !dir.is_zero_approx(): entity_movement.direction = dir
 		
 		_update_indicators()
 
 func _update_curve() -> void:
 	path_3d.curve.clear_points()
 	
-	if !selected_indicator:  return
+	if !selected_indicator: return
+	
+	var control_point = (
+		entity.global_position + (entity_movement.velocity * entity_movement.exit_angle_factor) - selected_indicator.global_position
+	)
 	
 	path_3d.curve.add_point(entity.global_position)
 	path_3d.curve.add_point(selected_indicator.global_position)
-	path_3d.curve.set_point_in(
-		1,
-		entity.global_position + entity_movement.velocity - selected_indicator.global_position
-	)
+	path_3d.curve.add_point(selected_indicator.global_position - control_point)
+	path_3d.curve.set_point_in(1, control_point)
+	path_3d.curve.set_point_out(1, -control_point)
 	
-	$Path3D/PathFollow3D.progress_ratio = 1.0
+	var closest_offset: float = path_3d.curve.get_closest_offset(selected_indicator.global_position)
+	var total_length: float = path_3d.curve.get_baked_length()
+	var ratio: float = closest_offset / total_length
 
+	$Path3D/PathFollow3D.progress_ratio = ratio
 
 func _update_pivot_transform() -> void:
 	var vel := entity_movement.velocity
@@ -84,7 +95,6 @@ func _movement_basis(vel: Vector3) -> Basis:
 	
 	return Basis(right, up, -forward)
 
-
 func _build_indicators() -> void:
 	for i in range(9):
 		var indicator = icon_scene.instantiate()
@@ -98,12 +108,11 @@ func _build_indicators() -> void:
 func _update_indicators() -> void:
 	var vel := entity_movement.velocity
 	var speed := vel.length()
-
-	const spacing := 3.0
-
-	# Offset indicators forward in movement space
+	
+	var spacing := speed * entity_movement.TURNING_RADIUS_FACTOR
+	
 	indicators.position = Vector3(0, 0, -speed)
-
+	
 	var i = 0
 	for x in range(-1, 2):
 		for y in range(-1, 2):

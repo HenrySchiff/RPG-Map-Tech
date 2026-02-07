@@ -43,7 +43,7 @@ func _process(_delta):
 	gradient_shader.set_shader_parameter("position", player.global_position)
 	gradient_shader.set_shader_parameter("visible_distance", player.view_range)
 	
-	if Input.is_action_just_pressed("click"):
+	if Input.is_action_just_pressed("click") and get_window().has_focus():
 		var cast = get_object_under_mouse()
 		if !cast: return 
 		

@@ -20,7 +20,7 @@ func _apply_view_range():
 	graph_cube.edge_length = view_range * 2.0
 
 func _process(delta):
-	$DirectionVector.look_at(movement_component.velocity + position)
+	$DirectionVector.look_at(movement_component.velocity + global_position)
 	
 	if !is_equal_approx(view_range, target_view_range):
 		view_range = Util.lerpdt(view_range, target_view_range, 0.0001, delta)

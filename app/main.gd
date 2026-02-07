@@ -11,6 +11,10 @@ const INITIAL_WINDOW_SIZE: Vector2 = Vector2(1152, 648)
 @onready var gui = $GUI
 
 func _ready():
+	# hide default main window
+	get_window().mode = Window.MODE_MINIMIZED
+	get_window().unfocusable = true
+	
 	get_tree().auto_accept_quit = false
 	load_config()
 	

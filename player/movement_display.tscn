@@ -4,6 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="2_t7phm"]
 
 [sub_resource type="Curve3D" id="Curve3D_4nodc"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 5, 0, 0, 5, 10, 0, 0, 0, 0, 0, 0, 0, 10, 10),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ostuu"]
 shading_mode = 0
@@ -21,6 +26,7 @@ script = ExtResource("1_67fdy")
 curve = SubResource("Curve3D_4nodc")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(-1, 0, -8.74197e-08, 0, 0.9999648, 0, 8.742278e-08, 0, -0.9999648, 0, 0, 0)
 
 [node name="Icon" parent="Path3D/PathFollow3D" instance=ExtResource("2_t7phm")]
 

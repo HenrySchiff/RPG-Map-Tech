@@ -66,10 +66,16 @@ func _process(_delta):
 	var view_range = [display_window.player.target_view_range]
 	if ImGui.InputFloatEx("View distance", view_range, 1.0, 1.0, "%.1f"):
 		display_window.player.target_view_range = view_range[0]
-		
-	var speed = [display_window.player.movement_component.speed]
-	if ImGui.InputFloatEx("Speed", speed, 1.0, 1.0, "%.1f"):
-		display_window.player.movement_component.speed = clamp(speed[0], 2.0, 10.0)
+	
+	var accel = control_window.player.movement_component.ACCELERATION
+	var max_speed = control_window.player.movement_component.MAX_SPEED
+	var speed = [control_window.player.movement_component.speed]
+	if ImGui.InputFloatEx("Speed", speed, accel, accel, "%.1f"):
+		control_window.player.movement_component.speed = clamp(speed[0], accel, max_speed)
+	
+	var angle = [control_window.player.movement_component.exit_angle_factor]
+	if ImGui.InputFloatEx("Exit angle", angle, 0.25, 0.25, "%.2f"):
+		control_window.player.movement_component.exit_angle_factor = clamp(angle[0], 0, 1.0)
 	
 	if ImGui.TreeNode("Enemies"):
 		for enemy: Icon in control_window.world.enemies.get_children():
