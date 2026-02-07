@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://182hdqirsi56"]
+[gd_scene format=3 uid="uid://182hdqirsi56"]
 
 [ext_resource type="PackedScene" uid="uid://crg3oxps7ejta" path="res://graph/graph_cube.tscn" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://b72paykfkc25l" path="res://player/player.gd" id="1_onrkg"]
@@ -27,37 +27,37 @@ top_radius = 0.03
 bottom_radius = 0.03
 height = 0.5
 
-[node name="Player" type="Node3D"]
+[node name="Player" type="Node3D" unique_id=535417070]
 script = ExtResource("1_onrkg")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." unique_id=19078806]
 visible = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=471776508]
 shape = SubResource("BoxShape3D_036b0")
 debug_color = Color(0.66865796, 0.36691535, 0.8855333, 0.6392157)
 
-[node name="GraphCube" parent="." instance=ExtResource("1_4flbx")]
+[node name="GraphCube" parent="." unique_id=1859722534 instance=ExtResource("1_4flbx")]
 edge_length = 14.0
 line_color = Color(0.52906674, 0.5290667, 0.5290667, 1)
 line_thickness = 0.03
 edge_thickness = 0.03
 
-[node name="Icon" parent="." instance=ExtResource("2_i3pqv")]
+[node name="Icon" parent="." unique_id=956385106 instance=ExtResource("2_i3pqv")]
 label_text = "PLYR"
 
-[node name="MovementComponent" type="Node3D" parent="."]
+[node name="MovementComponent" type="Node3D" parent="." unique_id=637403569]
 script = ExtResource("5_qjkh3")
 metadata/_custom_type_script = "uid://bweeqby8b2nq1"
 
-[node name="DirectionVector" type="Node3D" parent="."]
+[node name="DirectionVector" type="Node3D" parent="." unique_id=1000615663]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="DirectionVector"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DirectionVector" unique_id=1060913057]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -1)
 mesh = SubResource("CylinderMesh_mmw4h")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="DirectionVector"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="DirectionVector" unique_id=1034654660]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 mesh = SubResource("CylinderMesh_g6k8r")
 skeleton = NodePath("../..")

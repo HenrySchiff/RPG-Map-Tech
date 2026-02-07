@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dugmpnsxaagba"]
+[gd_scene format=3 uid="uid://dugmpnsxaagba"]
 
-[ext_resource type="Script" path="res://addons/imgui-godot/scripts/ImGuiRoot.gd" id="1_lney5"]
+[ext_resource type="Script" uid="uid://bbjvwp750oevi" path="res://addons/imgui-godot/scripts/ImGuiRoot.gd" id="1_lney5"]
 
-[node name="ImGuiRoot" type="Node"]
+[node name="ImGuiRoot" type="Node" unique_id=479454229]
 script = ExtResource("1_lney5")

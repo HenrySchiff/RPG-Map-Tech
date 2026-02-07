@@ -12,14 +12,14 @@ config_version=5
 
 config/name="Map"
 run/main_scene="uid://sikxdg3ndkdw"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 run/max_fps=60
 boot_splash/show_image=false
 config/icon="uid://dfyobossjhvg"
 
 [autoload]
 
-ImGuiRoot="*res://addons/imgui-godot/data/ImGuiRoot.tscn"
+ImGuiRoot="*uid://dugmpnsxaagba"
 
 [debug]
 

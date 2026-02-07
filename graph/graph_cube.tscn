@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://crg3oxps7ejta"]
+[gd_scene format=3 uid="uid://crg3oxps7ejta"]
 
 [ext_resource type="Script" uid="uid://7tnil56w35pk" path="res://graph/graph_cube.gd" id="1_0bdpa"]
 [ext_resource type="Shader" uid="uid://cv1u6oog1gxqy" path="res://graph/graph_plane.gdshader" id="3_pk28m"]
@@ -207,73 +207,73 @@ shader_parameter/edge_color = Vector4(0, 0, 0, 0)
 material = SubResource("ShaderMaterial_gl60m")
 size = Vector2(10, 10)
 
-[node name="GraphCube" type="Node3D"]
+[node name="GraphCube" type="Node3D" unique_id=1637255149]
 script = ExtResource("1_0bdpa")
 line_color = Color(0.601223, 0.601223, 0.60122293, 1)
 line_thickness = 0.05
 edge_thickness = 0.1
 smooth_factor = 0.6200000000000001
 
-[node name="InsideFaces" type="Node3D" parent="."]
+[node name="InsideFaces" type="Node3D" parent="." unique_id=355693688]
 
-[node name="PlanePosXY" type="MeshInstance3D" parent="InsideFaces"]
+[node name="PlanePosXY" type="MeshInstance3D" parent="InsideFaces" unique_id=1952272020]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 5)
 mesh = SubResource("PlaneMesh_pk28m")
 skeleton = NodePath("../..")
 
-[node name="PlaneNegXY" type="MeshInstance3D" parent="InsideFaces"]
+[node name="PlaneNegXY" type="MeshInstance3D" parent="InsideFaces" unique_id=877330928]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -5)
 mesh = SubResource("PlaneMesh_ie4pf")
 skeleton = NodePath("../..")
 
-[node name="PlanePosZY" type="MeshInstance3D" parent="InsideFaces"]
+[node name="PlanePosZY" type="MeshInstance3D" parent="InsideFaces" unique_id=365952118]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 5, 0, 0)
 mesh = SubResource("PlaneMesh_q6yc6")
 skeleton = NodePath("../..")
 
-[node name="PlaneNegZY" type="MeshInstance3D" parent="InsideFaces"]
+[node name="PlaneNegZY" type="MeshInstance3D" parent="InsideFaces" unique_id=718639517]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -5, 0, 0)
 mesh = SubResource("PlaneMesh_b5wph")
 skeleton = NodePath("../..")
 
-[node name="PlanePosXZ" type="MeshInstance3D" parent="InsideFaces"]
+[node name="PlanePosXZ" type="MeshInstance3D" parent="InsideFaces" unique_id=1846693337]
 transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 5, 0)
 mesh = SubResource("PlaneMesh_6eljt")
 skeleton = NodePath("../..")
 
-[node name="PlaneNegXZ" type="MeshInstance3D" parent="InsideFaces"]
+[node name="PlaneNegXZ" type="MeshInstance3D" parent="InsideFaces" unique_id=2136726044]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
 mesh = SubResource("PlaneMesh_ayxtk")
 skeleton = NodePath("../..")
 
-[node name="OutsideFaces" type="Node3D" parent="."]
+[node name="OutsideFaces" type="Node3D" parent="." unique_id=566261704]
 
-[node name="PlanePosXY" type="MeshInstance3D" parent="OutsideFaces"]
+[node name="PlanePosXY" type="MeshInstance3D" parent="OutsideFaces" unique_id=500113997]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 5)
 mesh = SubResource("PlaneMesh_rl7ue")
 skeleton = NodePath("../..")
 
-[node name="PlaneNegXY" type="MeshInstance3D" parent="OutsideFaces"]
+[node name="PlaneNegXY" type="MeshInstance3D" parent="OutsideFaces" unique_id=1830018949]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -5)
 mesh = SubResource("PlaneMesh_m6hvs")
 skeleton = NodePath("../..")
 
-[node name="PlanePosZY" type="MeshInstance3D" parent="OutsideFaces"]
+[node name="PlanePosZY" type="MeshInstance3D" parent="OutsideFaces" unique_id=1843442369]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 5, 0, 0)
 mesh = SubResource("PlaneMesh_vs0b6")
 skeleton = NodePath("../..")
 
-[node name="PlaneNegZY" type="MeshInstance3D" parent="OutsideFaces"]
+[node name="PlaneNegZY" type="MeshInstance3D" parent="OutsideFaces" unique_id=864912445]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -5, 0, 0)
 mesh = SubResource("PlaneMesh_7dn7n")
 skeleton = NodePath("../..")
 
-[node name="PlanePosXZ" type="MeshInstance3D" parent="OutsideFaces"]
+[node name="PlanePosXZ" type="MeshInstance3D" parent="OutsideFaces" unique_id=742669942]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 mesh = SubResource("PlaneMesh_brw3w")
 skeleton = NodePath("../..")
 
-[node name="PlaneNegXZ" type="MeshInstance3D" parent="OutsideFaces"]
+[node name="PlaneNegXZ" type="MeshInstance3D" parent="OutsideFaces" unique_id=12434500]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, -5, 0)
 mesh = SubResource("PlaneMesh_a8r7a")
 skeleton = NodePath("../..")
