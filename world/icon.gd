@@ -25,31 +25,40 @@ var label_text_buffer: Array[String] = [""]:
 
 @onready var world: Node3D = find_parent("World")
 @onready var sprite_3d: Sprite3D = $Sprite3D
-@onready var line_node = $LineNode
-@onready var line = $LineNode/Line
+#@onready var line_node = $LineNode
+#@onready var line = $LineNode/Line
+@onready var line: Line = $Line
 @onready var visible_area = $VisibleArea
 @onready var clickable_area = $ClickableArea
 @onready var label = $Label3D
 
+@warning_ignore("unused_signal")
 signal clicked
 
 func _ready():
 	add_to_group("icons")
 	
 	#NOTE: make unqiue not working for some reason
-	line.mesh = line.mesh.duplicate_deep()
+	#line.mesh = line.mesh.duplicate_deep()
 	
 	_apply_icon_type()
 	
 	label.text = label_text
 	label_text_buffer = [label_text]
 	#label_text_buffer.append("test")
-	visible_area.connect("area_entered", _handle_area_entered)
-	visible_area.connect("area_exited", _handle_area_exited)
+	if !get_parent() is Player:
+		visible_area.connect("area_entered", _handle_area_entered)
+		visible_area.connect("area_exited", _handle_area_exited)
 
-func _process(_delta):
+func set_target(_target):
+	target = _target
+	line.visible = target != null
 	if !target: return
 	set_target_pos(target.global_position)
+
+#func _process(_delta):
+	#if !target: return
+	#set_target_pos(target.global_position)
 
 func _handle_area_entered(area: Area3D):
 	if !area.get_parent() is Player: return
@@ -73,13 +82,17 @@ func _apply_icon_type():
 			sprite_3d.modulate = color
 
 func _apply_color():
-	line.mesh.get_material().set_shader_parameter("line_color", color);
+	line.line_mesh.mesh.get_material().set_shader_parameter("line_color", color);
 	sprite_3d.modulate = color
 
 func set_target_pos(target_pos: Vector3) -> void:
-	var distance: float = global_position.distance_to(target_pos)
-	var midpoint: Vector3 = (global_position + target_pos) / 2
-	line_node.global_position = midpoint
-	line_node.look_at(target_pos)
-	line.mesh.height = distance
-	line.mesh.get_material().set_shader_parameter("line_length", distance);
+	line.set_end_position(target_pos)
+	
+	var dist: float = snapped(global_position.distance_to(target_pos), 0.1)
+	$Line/Label3D.text = str(dist) + " m"
+	#var distance: float = global_position.distance_to(target_pos)
+	#var midpoint: Vector3 = (global_position + target_pos) / 2
+	#line_node.global_position = midpoint
+	#line_node.look_at(target_pos)
+	#line.mesh.height = distance
+	#line.mesh.get_material().set_shader_parameter("line_length", distance);

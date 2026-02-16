@@ -86,6 +86,8 @@ func _ready():
 	edge_color = edge_color
 	line_thickness = line_thickness
 	edge_thickness = edge_thickness
+	hide_faces = hide_faces
+	hide_outside_faces = hide_outside_faces
 
 func _process(_delta):
 	var offset_xz = Vector2(global_position.x, global_position.z) / edge_length

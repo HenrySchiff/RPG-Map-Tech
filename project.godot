@@ -13,17 +13,12 @@ config_version=5
 config/name="Map"
 run/main_scene="uid://sikxdg3ndkdw"
 config/features=PackedStringArray("4.6", "Forward Plus")
-run/max_fps=60
 boot_splash/show_image=false
 config/icon="uid://dfyobossjhvg"
 
 [autoload]
 
 ImGuiRoot="*uid://dugmpnsxaagba"
-
-[debug]
-
-shapes/paths/geometry_color=Color(4.9093364e-06, 0.698288, 0.18346351, 1)
 
 [display]
 
@@ -129,6 +124,7 @@ enter={
 
 [layer_names]
 
+3d_physics/layer_1="Terrain"
 3d_physics/layer_2="Clickable"
 
 [rendering]

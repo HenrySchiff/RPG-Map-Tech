@@ -70,7 +70,8 @@ func _process(_delta):
 	var accel = control_window.player.movement_component.ACCELERATION
 	var max_speed = control_window.player.movement_component.MAX_SPEED
 	var speed = [control_window.player.movement_component.speed]
-	if ImGui.InputFloatEx("Speed", speed, accel, accel, "%.1f"):
+	#if ImGui.InputFloatEx("Speed", speed, accel, accel, "%.1f"):
+	if ImGui.SliderFloatEx("Speed", speed, accel, max_speed, "%.1f"):
 		control_window.player.movement_component.speed = clamp(speed[0], accel, max_speed)
 	
 	var angle = [control_window.player.movement_component.exit_angle_factor]
@@ -78,12 +79,12 @@ func _process(_delta):
 		control_window.player.movement_component.exit_angle_factor = clamp(angle[0], 0, 1.0)
 	
 	if ImGui.TreeNode("Enemies"):
-		for enemy: Icon in control_window.world.enemies.get_children():
+		for enemy: Entity in control_window.world.enemies.get_children():
 			if ImGui.TreeNode(str(enemy.get_path())):
 				enemy.position = vector_step_input("Position", enemy.position, enemy.get_path())
-				ImGui.InputText("Name", enemy.label_text_buffer, 32)
-				enemy.label_text_buffer = enemy.label_text_buffer
-				color_picker("Color", enemy, "color")
+				ImGui.InputText("Name", enemy.icon.label_text_buffer, 32)
+				enemy.icon.label_text_buffer = enemy.icon.label_text_buffer
+				color_picker("Color", enemy.icon, "color")
 				ImGui.TreePop()
 		ImGui.TreePop()
 	ImGui.End()

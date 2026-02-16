@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://opxsq2lsxbnr"]
+
+[ext_resource type="Script" uid="uid://wd78hyl44jq8" path="res://height_caster.gd" id="1_8ru4a"]
+[ext_resource type="PackedScene" uid="uid://b50g5up3kkpeu" path="res://world/line.tscn" id="1_bv148"]
+[ext_resource type="Shader" uid="uid://dxxr72fhelec0" path="res://shaders/circle.gdshader" id="3_ettc4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ettc4"]
+shader = ExtResource("3_ettc4")
+shader_parameter/circle_color = Color(1, 1, 1, 1)
+shader_parameter/radius_meters = 0.250000011875
+shader_parameter/thickness_meters = 0.050000002375
+shader_parameter/decal_size_meters = 2.0
+
+[node name="HeightCaster" type="Node3D" unique_id=2005135030]
+script = ExtResource("1_8ru4a")
+
+[node name="Line" parent="." unique_id=1684012125 instance=ExtResource("1_bv148")]
+dashed = false
+
+[node name="Decal" type="Decal" parent="." unique_id=1124335839]
+cull_mask = 1048573
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=92682176]
+transparent_bg = true
+render_target_update_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport" unique_id=1700160005]
+material = SubResource("ShaderMaterial_ettc4")
+offset_right = 512.0
+offset_bottom = 512.0

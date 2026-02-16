@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode world_vertex_coords;
+render_mode world_vertex_coords, cull_disabled;
 
 uniform bool enable_clipping = true;
 uniform float visible_distance = 0.55;

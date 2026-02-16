@@ -12,4 +12,4 @@ shader_parameter/albedo_color = Vector3(0.25, 0.25, 0.25)
 shader_parameter/gradient_color_a = Color(0.8980392, 0.7294118, 0, 1)
 shader_parameter/gradient_color_b = Color(0.5921569, 0.02745098, 0, 1)
 shader_parameter/gradient_upper_bound = -3.0
-shader_parameter/gradient_lower_bound = -10.0
+shader_parameter/gradient_lower_bound = -9.585

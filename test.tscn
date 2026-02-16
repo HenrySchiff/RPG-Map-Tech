@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://ccy4yx7lrki30"]
+
+[sub_resource type="GDScript" id="GDScript_mf4mk"]
+script/source = "extends Node3D
+
+const icon_scene: PackedScene = preload(\"res://world/icon.tscn\")
+
+@onready var indicators = $Indicators
+
+func _ready():
+	_build_indicators()
+
+func _process(delta):
+	$Path3D/PathFollow3D.progress_ratio += delta * 0.25
+	
+	$Mimic.basis = $Path3D/PathFollow3D/Source.global_basis
+	
+	_update_indicators()
+	
+func _build_indicators() -> void:
+	for i in range(9):
+		var indicator = icon_scene.instantiate()
+		indicators.add_child(indicator)
+
+func _update_indicators() -> void:
+	var speed := 5.0
+	var spacing := 2.5
+	
+	var src_basis = $Path3D/PathFollow3D/Source.global_basis
+	indicators.basis = src_basis
+	indicators.position = $Path3D/PathFollow3D/Source.global_position - src_basis.z * speed
+	
+	#indicators.position = Vector3(0, 0, -speed)
+	
+	var i = 0
+	for x in range(-1, 2):
+		for y in range(-1, 2):
+			var indicator = indicators.get_child(i)
+			indicator.position = Vector3(x * spacing, y * spacing, 0)
+			indicator.color = Color.RED if i == 5 else Color.BLACK
+			
+			i += 1
+"
+
+[sub_resource type="Curve3D" id="Curve3D_mf4mk"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 5, 8, 0, 5, 0, 0, 0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0, -5, 13, 0),
+"tilts": PackedFloat32Array(0, -0.7853982, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mf4mk"]
+albedo_color = Color(0.92156863, 0.21176471, 0.31764707, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_37kl0"]
+material = SubResource("StandardMaterial3D_mf4mk")
+size = Vector3(0.1, 0.1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_37kl0"]
+albedo_color = Color(0.5137255, 0.8039216, 0.08627451, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mf4mk"]
+material = SubResource("StandardMaterial3D_37kl0")
+size = Vector3(0.1, 1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8uh7m"]
+albedo_color = Color(0.18039216, 0.5294118, 0.92156863, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6uqi0"]
+material = SubResource("StandardMaterial3D_8uh7m")
+size = Vector3(1, 0.1, 0.1)
+
+[node name="Test" type="Node3D" unique_id=97305031]
+script = SubResource("GDScript_mf4mk")
+
+[node name="Path3D" type="Path3D" parent="." unique_id=122785941]
+curve = SubResource("Curve3D_mf4mk")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=49230642]
+transform = Transform3D(4.371139e-08, -3.8208585e-15, 0.9998659, -8.742278e-08, -0.9998659, 0, 1, -8.741105e-08, -4.3705526e-08, -0.7542869, 13, 0)
+progress = 19.618517
+
+[node name="Source" type="Node3D" parent="Path3D/PathFollow3D" unique_id=1933685274]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PathFollow3D/Source" unique_id=1674412053]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = SubResource("BoxMesh_37kl0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Path3D/PathFollow3D/Source" unique_id=976856629]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_mf4mk")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Path3D/PathFollow3D/Source" unique_id=421853891]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+mesh = SubResource("BoxMesh_6uqi0")
+
+[node name="Mimic" type="Node3D" parent="." unique_id=949731598]
+transform = Transform3D(4.371139e-08, -3.8208585e-15, 0.9998659, -8.742278e-08, -0.9998659, 0, 1, -8.741105e-08, -4.3705526e-08, -8, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mimic" unique_id=1014465545]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = SubResource("BoxMesh_37kl0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mimic" unique_id=2027461221]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_mf4mk")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mimic" unique_id=1001878301]
+transform = Transform3D(1, 0, 7.1054274e-15, 0, 0.9999999, 0, -7.1054274e-15, 0, 0.9999999, 0.5, 0, 0)
+mesh = SubResource("BoxMesh_6uqi0")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=736044340]
+transform = Transform3D(0.9605028, 0, -0.27827027, 0, 1, 0, 0.27827027, 0, 0.9605028, -3.5931988, 7.3448567, 11.75501)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=476832094]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30.165922, 0)
+
+[node name="Indicators" type="Node3D" parent="." unique_id=1602899454]
+transform = Transform3D(4.371139e-08, -3.8208585e-15, 0.9998659, -8.742278e-08, -0.9998659, 0, 1, -8.741105e-08, -4.3705526e-08, 0.245579, 13, -4.3705526e-08)

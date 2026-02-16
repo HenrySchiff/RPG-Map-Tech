@@ -1,25 +1,16 @@
 [gd_scene format=3 uid="uid://cg3jiw7ljulh5"]
 
 [ext_resource type="Script" uid="uid://cibjbsl3omerf" path="res://world/world.gd" id="1_ig7tw"]
-[ext_resource type="Shader" uid="uid://cvasxjvsdc5a0" path="res://shaders/test.gdshader" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://182hdqirsi56" path="res://player/player.tscn" id="3_036b0"]
 [ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://player/camera_rig.tscn" id="4_1bvp3"]
-[ext_resource type="ArrayMesh" uid="uid://csj1otuhv2re6" path="res://assets/lowpoly.obj" id="4_sc4t8"]
 [ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="5_036b0"]
 [ext_resource type="Environment" uid="uid://csf112rx002o" path="res://world/resources/world_environment.tres" id="6_fn3g3"]
+[ext_resource type="Script" uid="uid://jmwv7vaehhha" path="res://entity.gd" id="7_fyhu2"]
+[ext_resource type="PackedScene" uid="uid://ctd8diow2e4f" path="res://assets/terrain.glb" id="7_mad0u"]
+[ext_resource type="Script" uid="uid://bweeqby8b2nq1" path="res://player/movement_component.gd" id="8_4papg"]
 [ext_resource type="PackedScene" uid="uid://qxjn1y7gtx8g" path="res://player/movement_display.tscn" id="8_ai45w"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sc4t8"]
-render_priority = 0
-shader = ExtResource("2_1bvp3")
-shader_parameter/height_scale = 0.25
-shader_parameter/texel_size = 0.01
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_8uh7m"]
-material = SubResource("ShaderMaterial_sc4t8")
-size = Vector2(10, 10)
-subdivide_width = 32
-subdivide_depth = 32
+[ext_resource type="Material" uid="uid://curj5shqinovb" path="res://world/resources/gradient.tres" id="8_ocfjn"]
+[ext_resource type="PackedScene" uid="uid://opxsq2lsxbnr" path="res://height_caster.tscn" id="10_ov2xu"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
 size = Vector3(2, 8, 3)
@@ -45,81 +36,100 @@ entity = NodePath("../Player")
 [node name="CameraRig" parent="." unique_id=1348282843 node_paths=PackedStringArray("anchor") instance=ExtResource("4_1bvp3")]
 anchor = NodePath("../Player")
 
-[node name="Meshes" type="Node3D" parent="." unique_id=1941811636]
+[node name="Objects" type="Node3D" parent="." unique_id=1941811636]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Meshes" unique_id=1472083211 groups=["gradient"]]
-transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, -12, 0)
-mesh = ExtResource("4_sc4t8")
-
-[node name="TerrainTest" type="MeshInstance3D" parent="Meshes" unique_id=1900065992 groups=["gradient"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7.5, 0)
-visible = false
-mesh = SubResource("PlaneMesh_8uh7m")
-skeleton = NodePath("../..")
-
-[node name="Box2" type="MeshInstance3D" parent="Meshes" unique_id=1049452660]
+[node name="Box2" type="MeshInstance3D" parent="Objects" unique_id=1049452660]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 9, -5, 11)
 mesh = SubResource("BoxMesh_lquwl")
 skeleton = NodePath("../..")
 
-[node name="Box3" type="MeshInstance3D" parent="Meshes" unique_id=1519358372]
+[node name="Box3" type="MeshInstance3D" parent="Objects" unique_id=1519358372]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, -4.5, -8)
 mesh = SubResource("BoxMesh_7mycd")
 skeleton = NodePath("../..")
 
-[node name="Box5" type="MeshInstance3D" parent="Meshes" unique_id=327617228]
+[node name="Box5" type="MeshInstance3D" parent="Objects" unique_id=327617228]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -4, -8)
 mesh = SubResource("BoxMesh_7mycd")
 skeleton = NodePath("../..")
 
-[node name="Box6" type="MeshInstance3D" parent="Meshes" unique_id=1549035120]
+[node name="Box6" type="MeshInstance3D" parent="Objects" unique_id=1549035120]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 27, -4, -4.5)
 mesh = SubResource("BoxMesh_dwbse")
 skeleton = NodePath("../..")
 
-[node name="Box4" type="MeshInstance3D" parent="Meshes" unique_id=319732050]
+[node name="Box4" type="MeshInstance3D" parent="Objects" unique_id=319732050]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, -5, -11)
 mesh = SubResource("BoxMesh_272bh")
 skeleton = NodePath("../..")
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Meshes" unique_id=616662670]
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Objects" unique_id=616662670]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, -4.5, -23.5)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Meshes/CSGCombiner3D" unique_id=2033627659]
+[node name="CSGBox3D" type="CSGBox3D" parent="Objects/CSGCombiner3D" unique_id=2033627659]
 size = Vector3(3, 8, 2)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Meshes/CSGCombiner3D" unique_id=1021958944]
+[node name="CSGBox3D2" type="CSGBox3D" parent="Objects/CSGCombiner3D" unique_id=1021958944]
 transform = Transform3D(0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, 0, 0, 1, 1.5, 3.5, 0)
 operation = 2
 size = Vector3(2, 1, 2)
 
-[node name="CSGCombiner3D2" type="CSGCombiner3D" parent="Meshes" unique_id=531285800]
+[node name="CSGCombiner3D2" type="CSGCombiner3D" parent="Objects" unique_id=531285800]
 transform = Transform3D(-0.8660253, 0, -0.49999997, 0, 1, 0, 0.49999997, 0, -0.8660253, -5.5, -4, -23)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Meshes/CSGCombiner3D2" unique_id=129125612]
+[node name="CSGBox3D" type="CSGBox3D" parent="Objects/CSGCombiner3D2" unique_id=129125612]
 size = Vector3(3, 8, 2)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Meshes/CSGCombiner3D2" unique_id=659080398]
+[node name="CSGBox3D2" type="CSGBox3D" parent="Objects/CSGCombiner3D2" unique_id=659080398]
 transform = Transform3D(0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, 0, 0, 1, 1.5, 3.5, 0)
 operation = 2
 size = Vector3(2, 1, 2)
+
+[node name="terrain" parent="Objects" unique_id=1821515325 instance=ExtResource("7_mad0u")]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, -11.5, 0)
+
+[node name="lowpoly" parent="Objects/terrain" index="0" unique_id=666558208 groups=["gradient"]]
+surface_material_override/0 = ExtResource("8_ocfjn")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Objects/terrain" unique_id=372516372]
+collision_mask = 0
 
 [node name="Enemies" type="Node3D" parent="." unique_id=2009387768]
 
-[node name="EnemyIcon" parent="Enemies" unique_id=2032265967 instance=ExtResource("5_036b0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2, 4.5)
+[node name="Enemy" type="Node3D" parent="Enemies" unique_id=1155754165]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 2, 11)
+script = ExtResource("7_fyhu2")
+
+[node name="Icon" parent="Enemies/Enemy" unique_id=2032265967 instance=ExtResource("5_036b0")]
 label_text = "ENMY"
 icon_type = 1
 color = Color(0.8959465, 1.1551381e-06, 1.4439225e-06, 1)
 
-[node name="EnemyIcon2" parent="Enemies" unique_id=445493687 instance=ExtResource("5_036b0")]
+[node name="MovementComponent" type="Node3D" parent="Enemies/Enemy" unique_id=390341604]
+script = ExtResource("8_4papg")
+metadata/_custom_type_script = "uid://bweeqby8b2nq1"
+
+[node name="HeightCaster" parent="Enemies/Enemy" unique_id=2005135030 instance=ExtResource("10_ov2xu")]
+
+[node name="Enemy2" type="Node3D" parent="Enemies" unique_id=1027865527]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
+script = ExtResource("7_fyhu2")
+
+[node name="Icon" parent="Enemies/Enemy2" unique_id=445493687 instance=ExtResource("5_036b0")]
 label_text = "ENMY_2"
 icon_type = 1
 color = Color(2.5990605e-06, 0.51746273, 0.837438, 1)
 
+[node name="MovementComponent" type="Node3D" parent="Enemies/Enemy2" unique_id=1013582224]
+script = ExtResource("8_4papg")
+metadata/_custom_type_script = "uid://bweeqby8b2nq1"
+
+[node name="HeightCaster" parent="Enemies/Enemy2" unique_id=865198393 instance=ExtResource("10_ov2xu")]
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=397714891]
-transform = Transform3D(0.8052768, 0.335762, -0.48866463, 0, 0.8241954, 0.5663055, 0.592899, -0.4560327, 0.6637054, 0, 10, 0)
+transform = Transform3D(0.8052768, 0.335762, -0.48866463, -1.7669768e-08, 0.8241954, 0.5663056, 0.592899, -0.45603266, 0.66370547, 0, 19.5, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=870161135]
 environment = ExtResource("6_fn3g3")
+
+[editable path="Objects/terrain"]

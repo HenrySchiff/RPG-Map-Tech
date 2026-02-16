@@ -9,14 +9,23 @@ var icon_scene: PackedScene = preload("res://world/icon.tscn")
 @onready var indicators: Node3D = $IndicatorPivot/Indicators
 @onready var path_3d: Path3D = $Path3D
 
-var selected_indicator: Icon
+@onready var preview_vector: PathFollow3D = $Path3D/PreviewVector
+@onready var progress_vector: PathFollow3D = $Path3D/ProgressVector
+
+var selected_indicator: Icon = null
+
+var moving: bool = false
 
 
 func _ready():
+	$CSGPolygon3D.polygon = Util.generate_circle(0.03, 10)
+	
 	_build_indicators()
 	_update_indicators()
+	_update_curve()
 	
 	entity_movement.velocity_changed.connect(func():
+		if moving: return
 		_update_indicators()
 		_update_curve()
 		#_update_pivot_transform()
@@ -26,28 +35,58 @@ func _ready():
 		_update_curve()
 	)
 
-func _process(_delta):
-	_update_pivot_transform()
+func _process(delta):
+	if !moving:
+		_update_pivot_transform()
+		return
+	
+	var prev_progress: float = progress_vector.progress_ratio
+	progress_vector.progress += delta * 5.0
+	entity.position = progress_vector.position
+	
+	entity.get_node("DirectionVector").basis = progress_vector.global_basis
+	entity_movement.direction = -progress_vector.basis.z
+	entity_movement.up_direction - progress_vector.basis.y
+	
+	var ratio = Util.get_ratio_at_point(path_3d.curve, 1)
+	
+	# progress is past required ratio or has wrapped completely
+	if progress_vector.progress_ratio > ratio || progress_vector.progress_ratio < prev_progress:
+		progress_vector.progress_ratio = 0.0
+		selected_indicator = null
+		
+		var local_point := path_3d.curve.get_point_position(1)
+		var world_point := path_3d.global_transform * local_point
+		entity.position = world_point
+		entity_movement.direction = -preview_vector.basis.z
+		
+		_update_pivot_transform()
+		_update_indicators()
+		selected_indicator = indicators.get_child(4)
+		_update_curve()
+		
+		moving = false
 
 func _input(_event):
 	if Input.is_action_just_pressed("enter"):
 		if path_3d.curve.point_count < 2:
 			return
 		
-		var local_point := path_3d.curve.get_point_position(1)
-		var world_point := path_3d.global_transform * local_point
-		
-		#var center_pos := entity.global_position + entity_movement.velocity
-		#var dir := (world_point - center_pos).normalized()
-		
-		selected_indicator = null
-		
-		entity.position = world_point
-		entity.position_target = world_point
-		entity_movement.direction = -$Path3D/PathFollow3D.basis.z
-		#if !dir.is_zero_approx(): entity_movement.direction = dir
-		
-		_update_indicators()
+		moving = true
+		#var local_point := path_3d.curve.get_point_position(1)
+		#var world_point := path_3d.global_transform * local_point
+		#
+		#selected_indicator = null
+		#
+		##var ratio = Util.get_ratio_at_point(path_3d.curve, 1)
+		##progress_vector.progress += delta * 5.0
+		##progress_vector.progress_ratio = fmod(progress_vector.progress_ratio, ratio)
+		#
+		#entity.position = world_point
+		##entity.position_target = world_point
+		#entity_movement.direction = -preview_vector.basis.z
+		#
+		#_update_indicators()
 
 func _update_curve() -> void:
 	path_3d.curve.clear_points()
@@ -55,8 +94,12 @@ func _update_curve() -> void:
 	if !selected_indicator: return
 	
 	var control_point = (
-		entity.global_position + (entity_movement.velocity * entity_movement.exit_angle_factor) - selected_indicator.global_position
+		entity.global_position + 
+		(entity_movement.velocity * entity_movement.exit_angle_factor) - 
+		selected_indicator.global_position
 	)
+	
+	#print(control_point)
 	
 	path_3d.curve.add_point(entity.global_position)
 	path_3d.curve.add_point(selected_indicator.global_position)
@@ -64,11 +107,8 @@ func _update_curve() -> void:
 	path_3d.curve.set_point_in(1, control_point)
 	path_3d.curve.set_point_out(1, -control_point)
 	
-	var closest_offset: float = path_3d.curve.get_closest_offset(selected_indicator.global_position)
-	var total_length: float = path_3d.curve.get_baked_length()
-	var ratio: float = closest_offset / total_length
-
-	$Path3D/PathFollow3D.progress_ratio = ratio
+	var ratio = Util.get_ratio_at_point(path_3d.curve, 1)
+	preview_vector.progress_ratio = ratio
 
 func _update_pivot_transform() -> void:
 	var vel := entity_movement.velocity
@@ -86,9 +126,10 @@ func _movement_basis(vel: Vector3) -> Basis:
 	if forward.is_zero_approx():
 		return indicator_pivot.global_basis
 	
-	var reference_up := Vector3.UP
-	if abs(forward.dot(reference_up)) > 0.98:
-		reference_up = Vector3.FORWARD
+	var reference_up: Vector3 = entity_movement.up_direction
+	#var reference_up := Vector3.UP
+	#if abs(forward.dot(reference_up)) > 0.98:
+		#reference_up = Vector3.FORWARD
 	
 	var right := forward.cross(reference_up).normalized()
 	var up := right.cross(forward).normalized()
@@ -118,5 +159,7 @@ func _update_indicators() -> void:
 		for y in range(-1, 2):
 			#var indicator: Icon = icon_scene.instantiate()
 			var indicator = indicators.get_child(i)
-			i += 1
 			indicator.position = Vector3(x * spacing, y * spacing, 0)
+			indicator.color = Color.RED if i == 5 else Color.BLACK
+			
+			i += 1

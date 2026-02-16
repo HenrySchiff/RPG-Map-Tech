@@ -21,8 +21,11 @@ signal exit_angle_factor_changed
 
 var velocity: Vector3 = direction * speed:
 	set(value):
+		print(value)
 		velocity = value
 		velocity_changed.emit()
+
+var up_direction: Vector3 = Vector3.UP
 
 var exit_angle_factor: float = 1.0:
 	set(value):

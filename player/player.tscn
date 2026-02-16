@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://crg3oxps7ejta" path="res://graph/graph_cube.tscn" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://b72paykfkc25l" path="res://player/player.gd" id="1_onrkg"]
 [ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="2_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://opxsq2lsxbnr" path="res://height_caster.tscn" id="5_g6k8r"]
 [ext_resource type="Script" uid="uid://bweeqby8b2nq1" path="res://player/movement_component.gd" id="5_qjkh3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_036b0"]
@@ -41,10 +42,11 @@ debug_color = Color(0.66865796, 0.36691535, 0.8855333, 0.6392157)
 edge_length = 14.0
 line_color = Color(0.52906674, 0.5290667, 0.5290667, 1)
 line_thickness = 0.03
-edge_thickness = 0.03
+edge_thickness = 0.05
 
 [node name="Icon" parent="." unique_id=956385106 instance=ExtResource("2_i3pqv")]
 label_text = "PLYR"
+color = Color(0, 0, 0, 1)
 
 [node name="MovementComponent" type="Node3D" parent="." unique_id=637403569]
 script = ExtResource("5_qjkh3")
@@ -54,10 +56,14 @@ metadata/_custom_type_script = "uid://bweeqby8b2nq1"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="DirectionVector" unique_id=1060913057]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -1)
+layers = 2
 mesh = SubResource("CylinderMesh_mmw4h")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="DirectionVector" unique_id=1034654660]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+layers = 2
 mesh = SubResource("CylinderMesh_g6k8r")
 skeleton = NodePath("../..")
+
+[node name="HeightCaster" parent="." unique_id=2005135030 instance=ExtResource("5_g6k8r")]
