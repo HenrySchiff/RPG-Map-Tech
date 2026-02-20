@@ -12,20 +12,17 @@ signal exit_angle_factor_changed
 @export var speed: float = 10.0:
 	set(value):
 		speed = value
-		velocity = direction * speed
+		velocity = -direction.z * speed
 	
-@export var direction: Vector3 = Vector3.FORWARD:
+@export var direction: Basis = Basis(Vector3.FORWARD, 0.0):
 	set(value):
-		direction = value.normalized()
-		velocity = direction * speed
+		direction = value
+		velocity = -direction.z * speed
 
-var velocity: Vector3 = direction * speed:
+var velocity: Vector3 = -direction.z * speed:
 	set(value):
-		print(value)
 		velocity = value
 		velocity_changed.emit()
-
-var up_direction: Vector3 = Vector3.UP
 
 var exit_angle_factor: float = 1.0:
 	set(value):

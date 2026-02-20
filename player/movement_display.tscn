@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dujj2pxb57v3m" path="res://player/movement_display.gd" id="1_67fdy"]
 [ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="2_t7phm"]
+[ext_resource type="PackedScene" uid="uid://bt7pcirxn8dak" path="res://player/direction_vector.tscn" id="3_3rc4j"]
 
 [sub_resource type="Curve3D" id="Curve3D_4nodc"]
 _data = {
@@ -9,15 +10,6 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0)
 }
 point_count = 3
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ostuu"]
-shading_mode = 0
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_t7phm"]
-material = SubResource("StandardMaterial3D_ostuu")
-top_radius = 0.03
-bottom_radius = 0.03
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t7phm"]
 shading_mode = 0
@@ -29,35 +21,23 @@ script = ExtResource("1_67fdy")
 [node name="Path3D" type="Path3D" parent="." unique_id=1989789504]
 curve = SubResource("Curve3D_4nodc")
 
-[node name="PreviewVector" type="PathFollow3D" parent="Path3D" unique_id=1352682321]
-transform = Transform3D(-1, 0, -8.74197e-08, 0, 0.9999648, 0, 8.742278e-08, 0, -0.9999648, 0, 0, 0)
-visible = false
-
-[node name="Icon" parent="Path3D/PreviewVector" unique_id=812710474 instance=ExtResource("2_t7phm")]
-
-[node name="DirectionVector" type="Node3D" parent="Path3D/PreviewVector/Icon" unique_id=272219265]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/PreviewVector/Icon/DirectionVector" unique_id=1513154525]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -1)
-layers = 2
-mesh = SubResource("CylinderMesh_t7phm")
-skeleton = NodePath("../..")
-
 [node name="ProgressVector" type="PathFollow3D" parent="Path3D" unique_id=1328597070]
 transform = Transform3D(-1, 0, -8.74197e-08, 0, 0.9999648, 0, 8.742278e-08, 0, -0.9999648, 0, 0, 0)
 visible = false
 
 [node name="Icon" parent="Path3D/ProgressVector" unique_id=1505461871 instance=ExtResource("2_t7phm")]
 
-[node name="DirectionVector" type="Node3D" parent="Path3D/ProgressVector/Icon" unique_id=42803934]
+[node name="DirectionVector" parent="Path3D/ProgressVector/Icon" unique_id=2145466577 instance=ExtResource("3_3rc4j")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Path3D/ProgressVector/Icon/DirectionVector" unique_id=1001363472]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -1)
-layers = 2
-mesh = SubResource("CylinderMesh_t7phm")
-skeleton = NodePath("../..")
+[node name="PreviewVector" type="PathFollow3D" parent="Path3D" unique_id=1352682321]
+transform = Transform3D(-1, 0, -8.74197e-08, 0, 0.9999648, 0, 8.742278e-08, 0, -0.9999648, 0, 0, 0)
+
+[node name="Icon" parent="Path3D/PreviewVector" unique_id=812710474 instance=ExtResource("2_t7phm")]
+
+[node name="DirectionVector" parent="Path3D/PreviewVector/Icon" unique_id=2124652437 instance=ExtResource("3_3rc4j")]
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=1772183494]
+visible = false
 layers = 2
 polygon = PackedVector2Array(-0.05, 0.05, 0.05, 0.05, 0.05, -0.05, -0.05, -0.05)
 mode = 2
@@ -73,6 +53,4 @@ path_u_distance = 1.0
 path_joined = false
 material = SubResource("StandardMaterial3D_t7phm")
 
-[node name="IndicatorPivot" type="Node3D" parent="." unique_id=691931863]
-
-[node name="Indicators" type="Node3D" parent="IndicatorPivot" unique_id=335760975]
+[node name="Indicators" type="Node3D" parent="." unique_id=335760975]

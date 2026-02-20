@@ -20,6 +20,10 @@ config/icon="uid://dfyobossjhvg"
 
 ImGuiRoot="*uid://dugmpnsxaagba"
 
+[debug]
+
+shapes/paths/geometry_color=Color(0.101960786, 1, 0.69803923, 0.78431374)
+
 [display]
 
 window/subwindows/embed_subwindows=false
