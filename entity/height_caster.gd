@@ -13,6 +13,8 @@ func _ready():
 	
 	set_color(Color.BLACK)
 	_update_texture()
+	
+	line.start_position = Vector3.DOWN / 4.0
 
 func raycast():
 	var space_state = get_world_3d().direct_space_state

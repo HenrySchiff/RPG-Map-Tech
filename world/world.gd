@@ -1,6 +1,6 @@
 class_name World extends Node3D
 
-var movement_display_scene: PackedScene = preload("res://player/movement_display.tscn")
+var movement_display_scene: PackedScene = preload("res://entity/movement_display.tscn")
 
 @export var enable_clipping: bool = true
 @export var icon_font_size: int = 80:
@@ -70,11 +70,13 @@ func _process(_delta):
 	
 	if !get_window().has_focus(): return
 	
+	#FIXME: terrible code ahead
+	
 	var cast = get_object_under_mouse()
 	if !cast:
 		hovered_icon = null
 		
-		if Input.is_action_just_pressed("click"):
+		if Input.is_action_just_pressed("left_click"):
 			player.icon.set_target(null)
 		return 
 	
@@ -89,7 +91,7 @@ func _process(_delta):
 		if hovered_icon:
 			_focus_on_entity(hovered_icon.get_parent())
 	
-	if Input.is_action_just_pressed("click"):
+	if Input.is_action_just_pressed("left_click"):
 		if hovered_icon:
 			collider.clicked.emit()
 			if !movement_display.is_ancestor_of(collider):
@@ -99,19 +101,6 @@ func _process(_delta):
 		
 		else:
 			player.icon.set_target(null)
-		
-		#if selected_icon: selected_icon.line.visible = false
-		selected_icon = hovered_icon
-		#selected_icon.line.visible = true
-		
-	
-	#if Input.is_action_just_pressed("click") and get_window().has_focus():
-		#var cast = get_object_under_mouse()
-		#if !cast: return 
-		#
-		#var collider = cast.collider.get_parent() 
-		#if collider is Icon:
-			#collider.clicked.emit()
 
 func set_enable_clipping(enabled: bool):
 	enable_clipping = enabled

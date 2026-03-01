@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://crjyexo2f4j8"]
+
+[sub_resource type="GDScript" id="GDScript_36sy7"]
+script/source = "extends Node3D
+
+#@export var cut_plane: Node3D  # A Node3D acting as the cutting plane
+#@export var cap_plane: Node3D
+#
+#func _process(_delta: float) -> void:
+	#var mesh_mat = $Cube.get_surface_override_material(0)
+	#if mesh_mat and cut_plane:
+		#mesh_mat.set_shader_parameter(\"plane_position\", cut_plane.global_position)
+		#mesh_mat.set_shader_parameter(\"plane_normal\", cut_plane.global_transform.basis.y)
+	# Also move the cap MeshInstance to match the plane
+	#cap_plane.global_transform = cut_plane.global_transform
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_36sy7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36sy7"]
+transparency = 1
+no_depth_test = true
+albedo_color = Color(1, 1, 0, 1)
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qsdps"]
+transparency = 1
+no_depth_test = true
+albedo_color = Color(1, 1, 1, 0)
+stencil_mode = 3
+stencil_flags = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_5a1vy"]
+material = SubResource("StandardMaterial3D_qsdps")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_36sy7"]
+
+[node name="StencilTest" type="Node3D" unique_id=1980680386]
+script = SubResource("GDScript_36sy7")
+
+[node name="Cube" type="MeshInstance3D" parent="." unique_id=1943154518]
+mesh = SubResource("BoxMesh_36sy7")
+surface_material_override/0 = SubResource("StandardMaterial3D_36sy7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2088186238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8402157, 0.2712642, -0.331536)
+mesh = SubResource("BoxMesh_5a1vy")
+
+[node name="Planes" type="Node3D" parent="." unique_id=910140707]
+transform = Transform3D(1, 0, 0, 0, 0.8859042, 0.46386823, 0, -0.46386823, 0.8859042, 0, 0.4009273, 0)
+
+[node name="CutPlane" type="MeshInstance3D" parent="Planes" unique_id=1764182578]
+visible = false
+mesh = SubResource("PlaneMesh_36sy7")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=183544658]
+transform = Transform3D(-4.2388685e-08, -0.24413972, 0.9697401, -1.0671686e-08, 0.9697401, 0.24413972, -1, 0, -4.371139e-08, 4.7254205, 1.2379193, 0.13126385)

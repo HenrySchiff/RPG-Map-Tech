@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://opxsq2lsxbnr"]
 
-[ext_resource type="Script" uid="uid://wd78hyl44jq8" path="res://height_caster.gd" id="1_8ru4a"]
+[ext_resource type="Script" uid="uid://wd78hyl44jq8" path="res://entity/height_caster.gd" id="1_8ru4a"]
 [ext_resource type="PackedScene" uid="uid://b50g5up3kkpeu" path="res://world/line.tscn" id="1_bv148"]
 [ext_resource type="Shader" uid="uid://dxxr72fhelec0" path="res://shaders/circle.gdshader" id="3_ettc4"]
 
@@ -15,6 +15,7 @@ shader_parameter/decal_size_meters = 2.0
 script = ExtResource("1_8ru4a")
 
 [node name="Line" parent="." unique_id=1684012125 instance=ExtResource("1_bv148")]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, -1, 0)
 dashed = false
 
 [node name="Decal" type="Decal" parent="." unique_id=1124335839]

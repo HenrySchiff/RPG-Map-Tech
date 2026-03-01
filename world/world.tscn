@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://cg3jiw7ljulh5"]
 
 [ext_resource type="Script" uid="uid://cibjbsl3omerf" path="res://world/world.gd" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://182hdqirsi56" path="res://player/player.tscn" id="3_036b0"]
-[ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://player/camera_rig.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://182hdqirsi56" path="res://entity/player/player.tscn" id="3_036b0"]
+[ext_resource type="PackedScene" uid="uid://nkey655nhq15" path="res://world/camera_rig.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="5_036b0"]
 [ext_resource type="Environment" uid="uid://csf112rx002o" path="res://world/resources/world_environment.tres" id="6_fn3g3"]
-[ext_resource type="Script" uid="uid://jmwv7vaehhha" path="res://entity.gd" id="7_fyhu2"]
+[ext_resource type="Script" uid="uid://jmwv7vaehhha" path="res://entity/entity.gd" id="7_fyhu2"]
 [ext_resource type="PackedScene" uid="uid://ctd8diow2e4f" path="res://assets/terrain.glb" id="7_mad0u"]
-[ext_resource type="Script" uid="uid://bweeqby8b2nq1" path="res://player/movement_component.gd" id="8_4papg"]
-[ext_resource type="PackedScene" uid="uid://qxjn1y7gtx8g" path="res://player/movement_display.tscn" id="8_ai45w"]
+[ext_resource type="Script" uid="uid://bweeqby8b2nq1" path="res://entity/movement_component.gd" id="8_4papg"]
+[ext_resource type="PackedScene" uid="uid://qxjn1y7gtx8g" path="res://entity/movement_display.tscn" id="8_ai45w"]
 [ext_resource type="Material" uid="uid://curj5shqinovb" path="res://world/resources/gradient.tres" id="8_ocfjn"]
-[ext_resource type="PackedScene" uid="uid://opxsq2lsxbnr" path="res://height_caster.tscn" id="10_ov2xu"]
+[ext_resource type="PackedScene" uid="uid://opxsq2lsxbnr" path="res://entity/height_caster.tscn" id="10_ov2xu"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
 size = Vector3(2, 8, 3)

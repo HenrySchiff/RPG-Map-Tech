@@ -1,5 +1,8 @@
 class_name Line extends Node3D
 
+# local position
+var start_position: Vector3 = Vector3.ZERO
+
 @export var animated: bool = false:
 	set(value):
 		animated = value
@@ -36,11 +39,14 @@ func _ready():
 	thickness = thickness
 	color = color
 
-func set_end_position(pos: Vector3) -> void:
+func set_end_position(end_pos: Vector3) -> void:
 	#if pos == global_position: return
-	var distance: float = get_parent().global_position.distance_to(pos)
-	var midpoint: Vector3 = (get_parent().global_position + pos) / 2
+	#var global_start_pos = global_position + start_position
+	var global_start_pos = get_parent().global_position + start_position
+	
+	var distance: float = global_start_pos.distance_to(end_pos)
+	var midpoint: Vector3 = (global_start_pos + end_pos) / 2
 	global_position = midpoint
-	look_at(pos, Vector3(0.001, 1, 0)) #FIXME
+	look_at(end_pos, Vector3(0.001, 1, 0)) #FIXME
 	line_mesh.mesh.height = distance
 	line_mesh.mesh.get_material().set_shader_parameter("line_length", distance);

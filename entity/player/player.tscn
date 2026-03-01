@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://182hdqirsi56"]
 
 [ext_resource type="PackedScene" uid="uid://crg3oxps7ejta" path="res://graph/graph_cube.tscn" id="1_4flbx"]
-[ext_resource type="Script" uid="uid://b72paykfkc25l" path="res://player/player.gd" id="1_onrkg"]
+[ext_resource type="Script" uid="uid://b72paykfkc25l" path="res://entity/player/player.gd" id="1_onrkg"]
 [ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="2_i3pqv"]
-[ext_resource type="PackedScene" uid="uid://bt7pcirxn8dak" path="res://player/direction_vector.tscn" id="5_boad6"]
-[ext_resource type="PackedScene" uid="uid://opxsq2lsxbnr" path="res://height_caster.tscn" id="5_g6k8r"]
-[ext_resource type="Script" uid="uid://bweeqby8b2nq1" path="res://player/movement_component.gd" id="5_qjkh3"]
+[ext_resource type="PackedScene" uid="uid://bt7pcirxn8dak" path="res://entity/direction_vector.tscn" id="5_boad6"]
+[ext_resource type="PackedScene" uid="uid://opxsq2lsxbnr" path="res://entity/height_caster.tscn" id="5_g6k8r"]
+[ext_resource type="Script" uid="uid://bweeqby8b2nq1" path="res://entity/movement_component.gd" id="5_qjkh3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_036b0"]
 size = Vector3(20, 20, 20)
@@ -34,6 +34,6 @@ color = Color(0, 0, 0, 1)
 script = ExtResource("5_qjkh3")
 metadata/_custom_type_script = "uid://bweeqby8b2nq1"
 
-[node name="DirectionVector" parent="." unique_id=2145466577 instance=ExtResource("5_boad6")]
+[node name="DirectionVector" parent="MovementComponent" unique_id=2145466577 instance=ExtResource("5_boad6")]
 
 [node name="HeightCaster" parent="." unique_id=2005135030 instance=ExtResource("5_g6k8r")]

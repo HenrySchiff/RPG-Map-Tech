@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://qxjn1y7gtx8g"]
 
-[ext_resource type="Script" uid="uid://dujj2pxb57v3m" path="res://player/movement_display.gd" id="1_67fdy"]
+[ext_resource type="Script" uid="uid://dujj2pxb57v3m" path="res://entity/movement_display.gd" id="1_67fdy"]
 [ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="2_t7phm"]
-[ext_resource type="PackedScene" uid="uid://bt7pcirxn8dak" path="res://player/direction_vector.tscn" id="3_3rc4j"]
+[ext_resource type="PackedScene" uid="uid://bt7pcirxn8dak" path="res://entity/direction_vector.tscn" id="3_3rc4j"]
 
 [sub_resource type="Curve3D" id="Curve3D_4nodc"]
 _data = {
@@ -37,7 +37,6 @@ transform = Transform3D(-1, 0, -8.74197e-08, 0, 0.9999648, 0, 8.742278e-08, 0, -
 [node name="DirectionVector" parent="Path3D/PreviewVector/Icon" unique_id=2124652437 instance=ExtResource("3_3rc4j")]
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=1772183494]
-visible = false
 layers = 2
 polygon = PackedVector2Array(-0.05, 0.05, 0.05, 0.05, 0.05, -0.05, -0.05, -0.05)
 mode = 2
@@ -47,7 +46,7 @@ path_interval = 0.5
 path_simplify_angle = 0.0
 path_rotation = 1
 path_rotation_accurate = false
-path_local = false
+path_local = true
 path_continuous_u = false
 path_u_distance = 1.0
 path_joined = false

@@ -24,8 +24,13 @@ func _process(delta):
 	
 	var mouse_vel = (curr_mouse_drag_pos - prev_mouse_drag_pos) / 10.0 * delta
 	
-	if Input.is_action_pressed("middle_mouse") and !mouse_vel.is_zero_approx():
-		focused_window.camera.force_update_rotation(-mouse_vel.y, -mouse_vel.x)
+	if Input.is_action_pressed("right_click") and !mouse_vel.is_zero_approx():
+		
+		if Input.is_action_pressed("shift"):
+			focused_window.camera.force_update_position(-mouse_vel.x, mouse_vel.y)
+		
+		else:
+			focused_window.camera.force_update_rotation(-mouse_vel.y, -mouse_vel.x)
 	
 	else:
 		var rotation_x_dir: int = 0

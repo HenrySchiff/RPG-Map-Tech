@@ -21,7 +21,7 @@ func _apply_view_range():
 
 func _process(delta):
 	$HeightCaster.raycast()
-	$DirectionVector.basis = movement_component.direction
+	#$DirectionVector.basis = movement_component.direction
 	#$DirectionVector.look_at(movement_component.velocity + global_position, Vector3(0.001, 1, 0))
 	
 	if !is_equal_approx(view_range, target_view_range):

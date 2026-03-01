@@ -18,6 +18,7 @@ signal exit_angle_factor_changed
 	set(value):
 		direction = value
 		velocity = -direction.z * speed
+		basis = direction #HACK
 
 var velocity: Vector3 = -direction.z * speed:
 	set(value):

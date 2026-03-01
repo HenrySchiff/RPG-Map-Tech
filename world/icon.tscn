@@ -2,9 +2,21 @@
 
 [ext_resource type="Script" uid="uid://v84nibqomwyu" path="res://world/icon.gd" id="1_hqyvl"]
 [ext_resource type="PackedScene" uid="uid://b50g5up3kkpeu" path="res://world/line.tscn" id="2_ostuu"]
+[ext_resource type="Shader" uid="uid://chc5cvvx10um3" path="res://shaders/square.gdshader" id="3_yej5s"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hqyvl"]
 radius = 1.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4vei2"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bvi11"]
+shader = ExtResource("3_yej5s")
+shader_parameter/reticle_color = Color(0, 0, 0, 1)
+shader_parameter/size_meters = 0.5330000253175
+shader_parameter/thickness_meters = 0.050000002375
+shader_parameter/gap_meters = 0.2000000095
+shader_parameter/decal_size_meters = 2.0
 
 [node name="Icon" type="Node3D" unique_id=1505461871]
 script = ExtResource("1_hqyvl")
@@ -43,13 +55,28 @@ font_size = 80
 outline_size = 15
 
 [node name="VisibleArea" type="Area3D" parent="." unique_id=914340352]
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="VisibleArea" unique_id=1936848868]
 shape = SubResource("SphereShape3D_hqyvl")
 
 [node name="ClickableArea" type="Area3D" parent="." unique_id=1686764996]
+visible = false
 collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ClickableArea" unique_id=1052272703]
 shape = SubResource("SphereShape3D_hqyvl")
+
+[node name="TargetReticle" type="Sprite3D" parent="." unique_id=1816766999]
+visible = false
+billboard = 1
+texture = SubResource("ViewportTexture_4vei2")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1598418710]
+transparent_bg = true
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport" unique_id=517067049]
+material = SubResource("ShaderMaterial_bvi11")
+offset_right = 512.0
+offset_bottom = 512.0

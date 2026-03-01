@@ -30,7 +30,9 @@ func _ready():
 
 func _process(delta):
 	
-	position_target = anchor.global_position
+	if anchor:
+		position_target = anchor.global_position
+		
 	#global_position = anchor.global_position
 	#position_target = global_position
 	
@@ -63,6 +65,12 @@ func sync_targets(other: CameraRig):
 	rotation_y_target = other.rotation_y_target
 	position_target = other.position_target
 	zoom_target = other.zoom_target
+
+func force_update_position(pos_x_delta: float, pos_y_delta: float):
+	anchor = null
+	position += camera.global_basis.x * pos_x_delta * 20.0
+	position += camera.global_basis.y * pos_y_delta * 20.0
+	position_target = position
 
 func force_update_rotation(rot_x_delta: float, rot_y_delta: float):
 	camera_arm.rotation.x += rot_x_delta
