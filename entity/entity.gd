@@ -1,6 +1,6 @@
 class_name Entity extends Node3D
 
-@onready var movement_component: MovementComponent = $MovementComponent
+@onready var movement_state: MovementState = $MovementState
 @onready var icon: Icon = $Icon
 @onready var height_caster: HeightCaster = $HeightCaster
 

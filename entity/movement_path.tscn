@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://qxjn1y7gtx8g"]
 
-[ext_resource type="Script" uid="uid://dujj2pxb57v3m" path="res://entity/movement_display.gd" id="1_67fdy"]
-[ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="2_t7phm"]
-[ext_resource type="PackedScene" uid="uid://bt7pcirxn8dak" path="res://entity/direction_vector.tscn" id="3_3rc4j"]
+[ext_resource type="Script" uid="uid://dujj2pxb57v3m" path="res://entity/movement_path.gd" id="1_47y8k"]
+[ext_resource type="PackedScene" uid="uid://1taoydfjd14q" path="res://world/icon.tscn" id="2_1hlhs"]
+[ext_resource type="PackedScene" uid="uid://bt7pcirxn8dak" path="res://entity/direction_vector.tscn" id="3_2swav"]
 
 [sub_resource type="Curve3D" id="Curve3D_4nodc"]
+resource_local_to_scene = true
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -5, 0, 0, 5, 0, 0, 5, 10, 0, 0, 0, 0, 0, 0, 0, 10, 10),
 "tilts": PackedFloat32Array(0, 0, 0)
@@ -13,28 +14,27 @@ point_count = 3
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t7phm"]
 shading_mode = 0
-albedo_color = Color(1, 0, 0, 1)
+albedo_color = Color(3.3691526e-06, 0.6424066, 0.3020389, 1)
 
-[node name="MovementDisplay" type="Node3D" unique_id=1225544790]
-script = ExtResource("1_67fdy")
+[node name="MovementPath" type="Node3D" unique_id=1225544790]
+script = ExtResource("1_47y8k")
 
 [node name="Path3D" type="Path3D" parent="." unique_id=1989789504]
 curve = SubResource("Curve3D_4nodc")
 
-[node name="ProgressVector" type="PathFollow3D" parent="Path3D" unique_id=1328597070]
-transform = Transform3D(-1, 0, -8.74197e-08, 0, 0.9999648, 0, 8.742278e-08, 0, -0.9999648, 0, 0, 0)
-visible = false
-
-[node name="Icon" parent="Path3D/ProgressVector" unique_id=1505461871 instance=ExtResource("2_t7phm")]
-
-[node name="DirectionVector" parent="Path3D/ProgressVector/Icon" unique_id=2145466577 instance=ExtResource("3_3rc4j")]
-
-[node name="PreviewVector" type="PathFollow3D" parent="Path3D" unique_id=1352682321]
+[node name="StartVector" type="PathFollow3D" parent="Path3D" unique_id=1328597070]
 transform = Transform3D(-1, 0, -8.74197e-08, 0, 0.9999648, 0, 8.742278e-08, 0, -0.9999648, 0, 0, 0)
 
-[node name="Icon" parent="Path3D/PreviewVector" unique_id=812710474 instance=ExtResource("2_t7phm")]
+[node name="Icon" parent="Path3D/StartVector" unique_id=1505461871 instance=ExtResource("2_1hlhs")]
 
-[node name="DirectionVector" parent="Path3D/PreviewVector/Icon" unique_id=2124652437 instance=ExtResource("3_3rc4j")]
+[node name="DirectionVector" parent="Path3D/StartVector/Icon" unique_id=2145466577 instance=ExtResource("3_2swav")]
+
+[node name="EndVector" type="PathFollow3D" parent="Path3D" unique_id=1352682321]
+transform = Transform3D(-1, 0, -8.74197e-08, 0, 0.9999648, 0, 8.742278e-08, 0, -0.9999648, 0, 0, 0)
+
+[node name="Icon" parent="Path3D/EndVector" unique_id=812710474 instance=ExtResource("2_1hlhs")]
+
+[node name="DirectionVector" parent="Path3D/EndVector/Icon" unique_id=2124652437 instance=ExtResource("3_2swav")]
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=1772183494]
 layers = 2

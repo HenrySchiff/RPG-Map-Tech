@@ -5,6 +5,7 @@
 [ext_resource type="Shader" uid="uid://chc5cvvx10um3" path="res://shaders/square.gdshader" id="3_yej5s"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hqyvl"]
+resource_local_to_scene = true
 radius = 1.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_4vei2"]
@@ -13,8 +14,8 @@ viewport_path = NodePath("SubViewport")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bvi11"]
 shader = ExtResource("3_yej5s")
 shader_parameter/reticle_color = Color(0, 0, 0, 1)
-shader_parameter/size_meters = 0.5330000253175
-shader_parameter/thickness_meters = 0.050000002375
+shader_parameter/size_meters = 0.400000019
+shader_parameter/thickness_meters = 0.0250000011875
 shader_parameter/gap_meters = 0.2000000095
 shader_parameter/decal_size_meters = 2.0
 
@@ -71,6 +72,8 @@ shape = SubResource("SphereShape3D_hqyvl")
 [node name="TargetReticle" type="Sprite3D" parent="." unique_id=1816766999]
 visible = false
 billboard = 1
+no_depth_test = true
+render_priority = 1
 texture = SubResource("ViewportTexture_4vei2")
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=1598418710]

@@ -14,6 +14,7 @@ const ROTATION_Y_STEP: float = deg_to_rad(45.0/2.0)
 const ROTATION_X_STEP: float = deg_to_rad(30.0)
 const POSITION_STEP: float = 1.0
 const ZOOM_FACTOR: float = 2.0
+const ZOOM_STEP: float = 0.05
 
 const ROTATION_X_MIN: float = deg_to_rad(-90.0)
 const ROTATION_X_MAX: float = deg_to_rad(0.0)
@@ -51,9 +52,11 @@ func _process(delta):
 	#TODO: adjust zooming to be consistent across both projections
 	if !is_equal_approx(camera.position.z, zoom_target):
 		if is_orthogonal:
-			camera.size = Util.lerpdt(camera.size, zoom_target, 0.00001, delta)
+			camera.size = Util.lerpdt(camera.size, zoom_target, 0.00000001, delta)
+			#camera.size = zoom_target
 		else:
 			camera.position.z = Util.lerpdt(camera.position.z, zoom_target, 0.0001, delta)
+			#camera.position.z = zoom_target
 
 func _apply_is_orthogonal():
 	var projection := Camera3D.PROJECTION_ORTHOGONAL if is_orthogonal else Camera3D.PROJECTION_PERSPECTIVE
@@ -92,5 +95,10 @@ func update_rotation(rot_x_dir: int, rot_y_dir: int):
 	
 
 func update_zoom(zoom_dir: int):
-	zoom_target /= ZOOM_FACTOR ** zoom_dir
+	#zoom_target /= ZOOM_FACTOR ** zoom_dir
+	#zoom_target = clamp(zoom_target, ZOOM_MIN, ZOOM_MAX)
+	
+	var log_target = log(zoom_target) / log(2)	# convert to log2
+	log_target -= zoom_dir * ZOOM_STEP * 10		# adjust step amount to taste
+	zoom_target = pow(2, log_target)
 	zoom_target = clamp(zoom_target, ZOOM_MIN, ZOOM_MAX)

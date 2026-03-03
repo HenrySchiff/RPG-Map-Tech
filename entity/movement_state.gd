@@ -1,4 +1,4 @@
-class_name MovementComponent extends Node3D
+class_name MovementState extends Node3D
 
 
 const ACCELERATION: float = 3.0
@@ -9,7 +9,7 @@ const TURNING_RADIUS_FACTOR: float = 1.0
 signal velocity_changed
 signal exit_angle_factor_changed
 
-@export var speed: float = 10.0:
+@export var speed: float = 6.0:
 	set(value):
 		speed = value
 		velocity = -direction.z * speed

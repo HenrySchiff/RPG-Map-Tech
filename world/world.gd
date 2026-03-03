@@ -1,6 +1,6 @@
 class_name World extends Node3D
 
-var movement_display_scene: PackedScene = preload("res://entity/movement_display.tscn")
+var movement_path_scene: PackedScene = preload("res://entity/movement_path.tscn")
 
 @export var enable_clipping: bool = true
 @export var icon_font_size: int = 80:
@@ -14,7 +14,7 @@ var movement_display_scene: PackedScene = preload("res://entity/movement_display
 @onready var camera: CameraRig = $CameraRig
 @onready var objects = $Objects
 @onready var enemies = $Enemies
-@onready var movement_display = $MovementDisplay
+@onready var movement_handler: MovementHandler = $MovementHandler
 
 @onready var terrain_mesh: MeshInstance3D = $Objects/terrain/lowpoly
 @onready var terrain_collision: StaticBody3D = $Objects/terrain/StaticBody3D
@@ -26,7 +26,6 @@ var solid_shader: ShaderMaterial = preload("res://world/resources/clip.tres").du
 var gradient_shader: ShaderMaterial = preload("res://world/resources/gradient.tres").duplicate()
 
 var hovered_icon: Icon
-var selected_icon: Icon
 
 
 func _ready():
@@ -44,23 +43,9 @@ func _ready():
 	
 	terrain_mesh.create_trimesh_collision()
 	terrain_mesh.get_child(0).reparent(terrain_collision)
-	
-	#player.icon.clicked.connect(_focus_on_entity.bind(player))
-	
-	#for enemy in enemies.get_children():
-		#enemy.icon.target = player
-		#enemy.icon.set_target(player)
-		#enemy.icon.clicked.connect(_focus_on_entity.bind(enemy))
 
 func _focus_on_entity(entity: Node3D):
 	camera.anchor = entity
-	
-	remove_child(movement_display)
-	movement_display.queue_free()
-	
-	movement_display = movement_display_scene.instantiate()
-	movement_display.entity = entity
-	add_child(movement_display)
 
 func _process(_delta):
 	solid_shader.set_shader_parameter("position", player.global_position)
@@ -70,37 +55,38 @@ func _process(_delta):
 	
 	if !get_window().has_focus(): return
 	
-	#FIXME: terrible code ahead
+	#TODO: clean up / abstract input handling for more uses
+	
+	if ImGui.GetIO().WantCaptureMouse: return
+	
+	if hovered_icon:
+		hovered_icon.unhover()
 	
 	var cast = get_object_under_mouse()
 	if !cast:
 		hovered_icon = null
-		
 		if Input.is_action_just_pressed("left_click"):
-			player.icon.set_target(null)
+			movement_handler.set_entity(null)
 		return 
 	
 	var collider = cast.collider.get_parent()
 	if collider is Icon:
 		hovered_icon = collider
+		hovered_icon.hover()
 	else:
 		hovered_icon = null
 	
 	if Input.is_action_just_pressed("focus"):
-		#hovered_icon.clicked.emit()
 		if hovered_icon:
 			_focus_on_entity(hovered_icon.get_parent())
 	
 	if Input.is_action_just_pressed("left_click"):
+		print(hovered_icon)
 		if hovered_icon:
-			collider.clicked.emit()
-			if !movement_display.is_ancestor_of(collider):
-				player.icon.set_target(collider)
-			else:
-				player.icon.set_target(null)
-		
-		else:
-			player.icon.set_target(null)
+			hovered_icon.click()
+			var parent: Node3D = hovered_icon.get_parent()
+			if parent is Entity:
+				movement_handler.set_entity(parent)
 
 func set_enable_clipping(enabled: bool):
 	enable_clipping = enabled

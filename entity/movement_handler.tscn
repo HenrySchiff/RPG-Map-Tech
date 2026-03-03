@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://durmqvg4wx7e7"]
+
+[ext_resource type="Script" uid="uid://b2i3x7yj50iuu" path="res://entity/movement_handler.gd" id="1_qgrmd"]
+
+[node name="MovementHandler" type="Node3D" unique_id=1807654350]
+script = ExtResource("1_qgrmd")

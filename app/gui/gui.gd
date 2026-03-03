@@ -58,6 +58,7 @@ func _process(_delta):
 	
 	ImGui.End()
 	
+	
 	ImGui.Begin("Entities")
 	ImGui.SetWindowFontScale(font_scale)
 	ImGui.SeparatorText("Player")
@@ -66,17 +67,6 @@ func _process(_delta):
 	var view_range = [display_window.player.target_view_range]
 	if ImGui.InputFloatEx("View distance", view_range, 1.0, 1.0, "%.1f"):
 		display_window.player.target_view_range = view_range[0]
-	
-	var accel = control_window.player.movement_component.ACCELERATION
-	var max_speed = control_window.player.movement_component.MAX_SPEED
-	var speed = [control_window.player.movement_component.speed]
-	#if ImGui.InputFloatEx("Speed", speed, accel, accel, "%.1f"):
-	if ImGui.SliderFloatEx("Speed", speed, accel, max_speed, "%.1f"):
-		control_window.player.movement_component.speed = clamp(speed[0], accel, max_speed)
-	
-	var angle = [control_window.player.movement_component.exit_angle_factor]
-	if ImGui.InputFloatEx("Exit angle", angle, 0.25, 0.25, "%.2f"):
-		control_window.player.movement_component.exit_angle_factor = clamp(angle[0], 0, 1.0)
 	
 	if ImGui.TreeNode("Enemies"):
 		for enemy: Entity in control_window.world.enemies.get_children():
@@ -87,6 +77,32 @@ func _process(_delta):
 				color_picker("Color", enemy.icon, "color")
 				ImGui.TreePop()
 		ImGui.TreePop()
+	ImGui.End()
+	
+	
+	if !control_window.world.movement_handler.entity: return
+	
+	ImGui.Begin("Movement")
+	ImGui.SetWindowFontScale(font_scale)
+	
+	var movement_state: MovementState = control_window.world.movement_handler.selected_path.state
+	var accel = movement_state.ACCELERATION
+	var max_speed = movement_state.MAX_SPEED
+	var speed = [movement_state.speed]
+	#if ImGui.InputFloatEx("Speed", speed, accel, accel, "%.1f"):
+	if ImGui.SliderFloatEx("Speed", speed, accel, max_speed, "%.1f"):
+		movement_state.speed = clamp(speed[0], accel, max_speed)
+	
+	var angle = [movement_state.exit_angle_factor]
+	if ImGui.InputFloatEx("Exit angle", angle, 0.25, 0.25, "%.2f"):
+		movement_state.exit_angle_factor = clamp(angle[0], 0, 1.0)
+	
+	if ImGui.Button("Reset paths"):
+		control_window.world.movement_handler.reset_paths()
+	
+	if ImGui.Button("Move entity"):
+		control_window.world.movement_handler.move_entity()
+	
 	ImGui.End()
 
 

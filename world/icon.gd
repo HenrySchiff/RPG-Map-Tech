@@ -30,16 +30,16 @@ var label_text_buffer: Array[String] = [""]:
 @onready var line: Line = $Line
 @onready var visible_area = $VisibleArea
 @onready var clickable_area = $ClickableArea
+@onready var clickable_area_collider = $ClickableArea/CollisionShape3D
+@onready var target_reticle = $TargetReticle
 @onready var label = $Label3D
 
-@warning_ignore("unused_signal")
 signal clicked
+signal hovered
 
 func _ready():
 	add_to_group("icons")
-	
-	#NOTE: make unqiue not working for some reason
-	#line.mesh = line.mesh.duplicate_deep()
+	clickable_area.input_ray_pickable = false
 	
 	_apply_icon_type()
 	
@@ -85,6 +85,10 @@ func _apply_color():
 	line.line_mesh.mesh.get_material().set_shader_parameter("line_color", color);
 	sprite_3d.modulate = color
 
+func set_hidden(is_hidden: bool) -> void:
+	visible = !is_hidden
+	clickable_area.collision_layer = 2 if !is_hidden else 0 #prevent mouse-ray collision when hidden
+
 func set_target_pos(target_pos: Vector3) -> void:
 	line.set_end_position(target_pos)
 	
@@ -96,3 +100,16 @@ func set_target_pos(target_pos: Vector3) -> void:
 	#line_node.look_at(target_pos)
 	#line.mesh.height = distance
 	#line.mesh.get_material().set_shader_parameter("line_length", distance);
+
+func set_clickable_radius(radius: float) -> void:
+	clickable_area_collider.shape.radius = radius
+
+func click() -> void:
+	clicked.emit()
+
+func hover() -> void:
+	target_reticle.visible = true
+	hovered.emit()
+
+func unhover() -> void:
+	target_reticle.visible = false

@@ -25,5 +25,11 @@ gui = NodePath("../GUI")
 
 [editable path="ControlWindow"]
 [editable path="ControlWindow/SubViewportContainer/SubViewport/World"]
+[editable path="ControlWindow/SubViewportContainer/SubViewport/World/Player"]
+[editable path="ControlWindow/SubViewportContainer/SubViewport/World/MovementHandler"]
+[editable path="ControlWindow/SubViewportContainer/SubViewport/World/Objects/terrain"]
 [editable path="DisplayWindow"]
 [editable path="DisplayWindow/SubViewportContainer/SubViewport/World"]
+[editable path="DisplayWindow/SubViewportContainer/SubViewport/World/Player"]
+[editable path="DisplayWindow/SubViewportContainer/SubViewport/World/MovementHandler"]
+[editable path="DisplayWindow/SubViewportContainer/SubViewport/World/Objects/terrain"]

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://c4ht4xec1hww1" path="res://world/line.gd" id="1_x85nl"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ostuu"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_tqcps")
 shader_parameter/animated = true
@@ -12,6 +13,7 @@ shader_parameter/line_length = 0.0
 shader_parameter/line_color = Vector3(0, 0, 0)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_hqyvl"]
+resource_local_to_scene = true
 material = SubResource("ShaderMaterial_ostuu")
 top_radius = 0.03
 bottom_radius = 0.03

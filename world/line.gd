@@ -31,9 +31,6 @@ var start_position: Vector3 = Vector3.ZERO
 @onready var line_mesh: MeshInstance3D = $LineMesh
 
 func _ready():
-	#NOTE: make unqiue not working for some reason
-	line_mesh.mesh = line_mesh.mesh.duplicate_deep()
-	
 	animated = animated
 	dashed = dashed
 	thickness = thickness

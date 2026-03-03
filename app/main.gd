@@ -19,8 +19,8 @@ func _ready():
 	load_config()
 	
 	control_window.world.set_enable_clipping(false)
-	#control_cube.hide_faces = true
 	control_cube.line_thickness = 0.0
+	control_cube.hide_outside_faces = true
 	control_cube.face_color.a = 0.0
 	
 	display_window.close_requested.connect(save_and_quit)
